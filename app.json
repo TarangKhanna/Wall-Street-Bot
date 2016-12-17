@@ -1,0 +1,7 @@
+{
+  "name": "API.AI wallstreetbot",
+  "description": "API.AI webhook",
+  "repository": "https://github.com/TarangKhanna/wallstreetbot/tree/master",
+  "logo": "https://node-js-sample.herokuapp.com/node.png",
+  "keywords": ["api.ai", "natural language"]
+}
