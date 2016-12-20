@@ -12,11 +12,11 @@ from tweepy import OAuthHandler
 from tweepy import Stream
 import json
 import pandas as pd
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import csv 
 from textblob import TextBlob
 import numpy as np
-from pylab import *
+# from pylab import *
 import os.path
 
 access_token = "301847288-lWXEQAwNc7kvyIF4E6w3TCzj7FfWYyUs2FKXbkcR"
