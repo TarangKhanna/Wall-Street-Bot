@@ -26,17 +26,45 @@ def webhook():
     print r
     return r
 
-
 def processRequest(req):
-    if req.get("result").get("action") != "stockForecast":
+    if req.get("result").get("action") == "CurrentPrice.price":   
+        data = json.loads(getStockCurrentPrice(req))
+        res = makeWebhookResult(data)
+        return res
+    else if req.get("result").get("action") == "Prediction.stockForecast":
+        data = json.loads(getStockPrediction(req))
+        res = makeWebhookResult(data)
+        return res 
+    else if req.get("result").get("action") == "Feelings.analyze":
+        data = json.loads(getTwitterFeelings(req))
+        res = makeWebhookResult(data)
+        return res
+    else:
         return {}
-    # int to json?
-    data = json.loads(getstockInfo(req))
-    res = makeWebhookResult(data)
-    return res
 
-def getstockInfo(req):
-    print "here"
+def getTwitterFeelings(req):
+    result = req.get("result")
+    parameters = result.get("parameters")
+    stock_symbol = parameters.get("stock_symbol")
+    if stock_symbol is None:
+        return None
+
+    twitter_analyzer = twitter_analyze()
+    twitter_data = twitter_analyzer.analyze_feelings(stock)
+    print twitter_data
+
+    data = {}
+    data['positive'] = twitter_data[0]
+    data['negative'] = twitter_data[1]
+    data['neutral'] = twitter_data[2]
+
+    data_string = ''
+    for key, value in d.iteritems():
+        data_string += key + ' ' + str(value) + '\n'
+
+    return data_string
+
+def getStockPrediction(req):
     result = req.get("result")
     parameters = result.get("parameters")
     stock_symbol = parameters.get("stock_symbol")
@@ -44,25 +72,36 @@ def getstockInfo(req):
         return None
 
     prediction = predictStocks()
-    # predicted_values = prediction.stocksRegression(stock, int(num_of_days))
+    num_of_days = 14
+    predicted_values = prediction.stocksRegression(stock, int(num_of_days))
+
     # twitter_analyzer = twitter_analyze()
     # twitter_data = twitter_analyzer.analyze_feelings(stock)
     # print twitter_data
-    current_price = prediction.getCurrentPrice(stock_symbol)
+    # current_price = prediction.getCurrentPrice(stock_symbol)
 #     data = {}
 #     data['positive'] = twitter_data[0]
 #     data['negative'] = twitter_data[1]
 #     data['neutral'] = twitter_data[2]
 # #    data['predicted'] = prediction_str[0]
 # #    data['training'] = prediction_str[1]
-#     return (jsonify({'data':data}), 201)
     
-    return current_price
+    return '\n'.join(predicted_values)
 
+def getStockCurrentPrice(req):
+    result = req.get("result")
+    parameters = result.get("parameters")
+    stock_symbol = parameters.get("stock_symbol")
+    if stock_symbol is None:
+        return None
+
+    prediction = predictStocks()
+    current_price = prediction.getCurrentPrice(stock_symbol)
+    return current_price
 
 def makeWebhookResult(data):
 
-    speech = "Current Price for the stock is:" + str(data)
+    speech = "Current Price for the stock is $" + str(data)
 
     print("Response:")
     print(speech)
