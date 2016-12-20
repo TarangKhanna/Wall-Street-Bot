@@ -66,7 +66,6 @@ jupyter-console==5.0.0
 jupyter-core==4.2.0
 Keras==1.1.1
 lazy-object-proxy==1.2.1
-llvmlite==0.14.0
 locket==0.2.0
 lxml==3.6.4
 MarkupSafe==0.23
@@ -157,4 +156,3 @@ XlsxWriter==0.9.3
 xlwings==0.10.0
 xlwt==1.1.2
 yahoo-finance==1.4.0
-enum34==1.1.6
