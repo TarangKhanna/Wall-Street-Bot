@@ -31,11 +31,11 @@ def processRequest(req):
         data = json.loads(getStockCurrentPrice(req))
         res = makeWebhookResult(data)
         return res
-    else if req.get("result").get("action") == "Prediction.stockForecast":
+    elif req.get("result").get("action") == "Prediction.stockForecast":
         data = json.loads(getStockPrediction(req))
         res = makeWebhookResult(data)
         return res 
-    else if req.get("result").get("action") == "Feelings.analyze":
+    elif req.get("result").get("action") == "Feelings.analyze":
         data = json.loads(getTwitterFeelings(req))
         res = makeWebhookResult(data)
         return res
