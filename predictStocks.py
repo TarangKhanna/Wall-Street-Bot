@@ -15,7 +15,7 @@ from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 # import matplotlib.pyplot as plt
-import pylab
+# import pylab
 from sklearn.metrics import f1_score
 from sklearn.ensemble import RandomForestClassifier
 import time
@@ -272,7 +272,7 @@ class predictStocks:
 		ax = data_frame.plot(title=title_label)
 		ax.set_xlabel(x_label)
 		ax.set_ylabel(y_label)
-		pylab.show()
+		# pylab.show()    
 
 	# download and clean symbol data
 	def download_data(self,symbol):
