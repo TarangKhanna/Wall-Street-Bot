@@ -75,7 +75,8 @@ def getStockPrediction(req):
     num_of_days = 14
     predicted_values = prediction.stocksRegression(stock_symbol, int(num_of_days))
     predicted_list = predicted_values.tolist()
-    return ''.join(str(v) for v in predicted_list)
+    ''.join(str(v) for v in predicted_list)
+    return 'DONE'
 
 def getStockCurrentPrice(req):
     result = req.get("result")
