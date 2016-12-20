@@ -15,7 +15,6 @@ matplotlib==1.5.3
 more-itertools==2.2
 multipledispatch==0.4.9
 nbconvert==4.2.0
-nb-anacondacloud==1.2.0
 nltk==3.2.1
 oauthlib==2.0.1
 pathlib2==2.1.0
@@ -24,8 +23,6 @@ Quandl==3.0.1
 requests==2.12.1
 requests-oauthlib==0.7.0
 textblob==0.11.1
-tornado==4.4.2
-traitlets==4.3.1
 tweepy==3.5.0
 unicodecsv==0.14.1
 yahoo-finance==1.4.0
