@@ -31,11 +31,12 @@ def processRequest(req):
     if req.get("result").get("action") != "stockForecast":
         return {}
     # int to json?
-    data = json.loads(getstockInfo())
+    data = json.loads(getstockInfo(req))
     res = makeWebhookResult(data)
     return res
 
 def getstockInfo(req):
+    print "here"
     result = req.get("result")
     parameters = result.get("parameters")
     stock_symbol = parameters.get("stock_symbol")
