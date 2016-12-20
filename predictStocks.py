@@ -10,7 +10,6 @@ import pandas as pd
 import quandl, shutil
 import math
 import numpy as np
-from sklearn import svm
 from sklearn.externals import joblib
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
