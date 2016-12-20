@@ -50,7 +50,7 @@ def getTwitterFeelings(req):
         return None
 
     twitter_analyzer = twitter_analyze()
-    twitter_data = twitter_analyzer.analyze_feelings(stock)
+    twitter_data = twitter_analyzer.analyze_feelings(stock_symbol)
     print twitter_data
 
     data = {}
@@ -73,7 +73,7 @@ def getStockPrediction(req):
 
     prediction = predictStocks()
     num_of_days = 14
-    predicted_values = prediction.stocksRegression(stock, int(num_of_days))
+    predicted_values = prediction.stocksRegression(stock_symbol, int(num_of_days))
 
     # twitter_analyzer = twitter_analyze()
     # twitter_data = twitter_analyzer.analyze_feelings(stock)
