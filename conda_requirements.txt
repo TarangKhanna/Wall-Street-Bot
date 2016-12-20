@@ -10,9 +10,6 @@ clyent==1.2.2
 scikit-image==0.12.3
 scikit-learn==0.18.1
 scipy==0.18.1
-nbformat==4.1.0
-nbpresent==3.0.2
-numba==0.29.0+0.gead0dd3.dirty
 numexpr==2.6.1
 numpy==1.11.2
 Werkzeug==0.11.11
