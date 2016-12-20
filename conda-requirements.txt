@@ -7,3 +7,4 @@ conda-verify==2.0.0
 nb-anacondacloud==1.2.0
 nb-conda==2.0.0
 nb-conda-kernels==2.0.0
+clyent==1.2.2
