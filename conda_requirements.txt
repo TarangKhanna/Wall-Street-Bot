@@ -7,11 +7,11 @@ nb-anacondacloud==1.2.0
 nb-conda==2.0.0
 nb-conda-kernels==2.0.0
 clyent==1.2.2
+numpy==1.11.2
 scipy==0.18.1
 scikit-image==0.12.3
 scikit-learn==0.18.1
 numexpr==2.6.1
-numpy==1.11.2
 Werkzeug==0.11.11
 pandas==0.19.1
 partd==0.3.6
