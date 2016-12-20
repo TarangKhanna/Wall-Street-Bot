@@ -62,7 +62,7 @@ def getstockInfo(req):
 
 def makeWebhookResult(data):
 
-    speech = "Current Price for the stock is:" + data
+    speech = "Current Price for the stock is:" + str(data)
 
     print("Response:")
     print(speech)
