@@ -89,7 +89,7 @@ class predictStocks:
 				clf.fit(X_train,y_train)
 				# clf.fit(X,y) # all data till now
 				file_name = 'LinearRegressionClf_%s.pkl' %symbol
-				joblib.dump(clf, file_name) # save the classifier to file
+				# joblib.dump(clf, file_name) # save the classifier to file
 
 				# clf = joblib.load('LinearRegressionClf.pkl')
 				# print clf
@@ -150,7 +150,8 @@ class predictStocks:
 				# 	best_algo = 'XG'
 
 			# file_name = 'XGClf_%s.pkl' %symbol
-		joblib.dump(best_clf, file_name) # save the classifier to file
+		# joblib.dump(best_clf, file_name) # save the classifier to file
+		return best_clf
 		# print 'best accuracy:'
 		# print best_accuracy
 
@@ -230,7 +231,7 @@ class predictStocks:
 	# 	return abs_path
 
 	# returns file name of the csv with predicted values
-	def regressionSaved(self,stocksDf, symbol, predict_index):
+	def regressionSaved(self, stocksDf, symbol, predict_index, clf):
 		# predict_index = 14
 		stocksDf = stocksDf.dropna(how='any')
 		X = np.array(stocksDf)
@@ -245,18 +246,18 @@ class predictStocks:
 
 		# print("Loading Classifier...")
 
-		file_name = 'LinearRegressionClf_%s.pkl' %symbol
-		clf = joblib.load(file_name)
+		# file_name = 'LinearRegressionClf_%s.pkl' %symbol
+		# clf = joblib.load(file_name)
 		temp_df = pd.DataFrame(clf.predict(predict_values), columns=['Predicted'])
 		frames = [predicted_df, temp_df]
-		cur_path = os.getcwd()
-		file_name = '/data/%s_predicted_values.csv' %symbol
-		abs_path = cur_path+file_name
-		temp_df.to_csv(abs_path, encoding='utf-8')
+		# cur_path = os.getcwd()
+		# file_name = '/data/%s_predicted_values.csv' %symbol
+		# abs_path = cur_path+file_name
+		# temp_df.to_csv(abs_path, encoding='utf-8')
 		result = pd.concat(frames, axis=1)
 
 		# print result
-		return abs_path
+		return temp_df
 
 	def dailyReturn(self,data):
 		# make chart
@@ -295,15 +296,18 @@ class predictStocks:
 		# add moving average
 		df = df.dropna(how='any')
 		# print df
-		file_name = 'data/%s_training.csv' %symbol
-		df.to_csv(file_name, encoding='utf-8')
+
+		# file_name = 'data/%s_training.csv' %symbol
+		# use amazon s3 to store files
+		# df.to_csv(file_name, encoding='utf-8')
+		return df
+
 
 	def stocksRegression(self, stockName, forecast_out):
 		# only download if new data avaliable
-		self.download_data(stockName)
-
-		file_name_training = 'data/%s_training.csv' %stockName
-		read_df = pd.read_csv(file_name_training, index_col = "Date")
+		read_df = self.download_data(stockName)
+		# file_name_training = 'data/%s_training.csv' %stockName
+		# read_df = pd.read_csv(file_name_training, index_col = "Date")
 
 		read_df['Daily Returns'] = self.dailyReturn(read_df['Adj. Close'])
 		to_predict_df = read_df.copy(deep=True)
@@ -312,12 +316,14 @@ class predictStocks:
 
 		read_df = read_df.dropna(how='any')
 
-		self.predictML(read_df, True, stockName)
-		cur_path = os.getcwd()
-		abs_path_training = cur_path+'/'+file_name_training
-		file_prediction = self.regressionSaved(to_predict_df, stockName, forecast_out)
+		clf = self.predictML(read_df, True, stockName)
+		# cur_path = os.getcwd()
+		# abs_path_training = cur_path+'/'+file_name_training
+
+		prediction_df = self.regressionSaved(to_predict_df, stockName, forecast_out, clf)
         
-		prediction_df = pd.read_csv(file_prediction, index_col=False)
+		# prediction_df = pd.read_csv(file_prediction, index_col=False)
+
 
 		current_date = datetime.date.today()
 		prediction_dates = []
