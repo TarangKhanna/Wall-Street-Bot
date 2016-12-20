@@ -145,6 +145,5 @@ wrapt==1.10.8
 
 xlrd==1.0.0
 XlsxWriter==0.9.3
-xlwings==0.10.0
 xlwt==1.1.2
 yahoo-finance==1.4.0
