@@ -48,7 +48,7 @@ def getstockInfo(req):
     # twitter_analyzer = twitter_analyze()
     # twitter_data = twitter_analyzer.analyze_feelings(stock)
     # print twitter_data
-    current_price = prediction.getCurrentPrice(stock)
+    current_price = prediction.getCurrentPrice(stock_symbol)
 #     data = {}
 #     data['positive'] = twitter_data[0]
 #     data['negative'] = twitter_data[1]
