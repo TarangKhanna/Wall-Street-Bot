@@ -4,14 +4,6 @@
 
 # given ['Adj. Open','Adj. Close', 'Adj. Volume','Adj. High', 'Adj. Low'], we can predict 1% into future 
 
-# In our case 'adj close' is clearly correlated to 'label' (we can verify this by doing a df.corr() before all the transforms).
-# label buy or sell based on increasing future then do f1 score test-recall and precision
-# ~ 77% accurate, increase 
-# wolframalpha for more data
-# find pre market movers
-# use xgboost
-# arc 
-
 # mean reversion for long term prediction
 from __future__ import division # preventing division issue in 2.7
 import pandas as pd 
