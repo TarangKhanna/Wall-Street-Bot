@@ -8,3 +8,6 @@ nb-anacondacloud==1.2.0
 nb-conda==2.0.0
 nb-conda-kernels==2.0.0
 clyent==1.2.2
+scikit-image==0.12.3
+scikit-learn==0.18.1
+scipy==0.18.1
