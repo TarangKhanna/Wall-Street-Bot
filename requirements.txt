@@ -70,7 +70,9 @@ more-itertools==2.2
 mpmath==0.19
 multipledispatch==0.4.9
 nbconvert==4.2.0
-
+nb-anacondacloud==1.2.0
+nb-conda==2.0.0
+nb-conda-kernels==2.0.0
 ndg-httpsclient==0.3.3
 networkx==1.11
 nltk==3.2.1

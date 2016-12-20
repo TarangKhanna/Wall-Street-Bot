@@ -22,7 +22,7 @@ import time
 import os
 # for tuning hyper parameters we use grid search
 from sklearn.grid_search import GridSearchCV   #Perforing grid search
-import xgboost
+# import xgboost
 import datetime
 from yahoo_finance import Share
 
@@ -117,25 +117,25 @@ class predictStocks:
 
 				# best is {'max_depth': 8, 'min_child_weight': 2}
 
-				clf = xgboost.XGBClassifier(
-											learning_rate =0.1,
-											n_estimators=1000,
-											max_depth=8,
-											min_child_weight=2,
-											gamma=0,
-											subsample=0.8,
-											colsample_bytree=0.8,
-											objective= 'binary:logistic',
-											nthread=4,
-											seed=27)
+				# clf = xgboost.XGBClassifier(
+				# 							learning_rate =0.1,
+				# 							n_estimators=1000,
+				# 							max_depth=8,
+				# 							min_child_weight=2,
+				# 							gamma=0,
+				# 							subsample=0.8,
+				# 							colsample_bytree=0.8,
+				# 							objective= 'binary:logistic',
+				# 							nthread=4,
+				# 							seed=27)
 
 				# print("Crunching...")
 				# clf.fit(X_train,y_train)
-				clf.fit(X_train,y_train) # all data till now
+				# clf.fit(X_train,y_train) # all data till now
 				
 				# clf = joblib.load('LinearRegressionClf.pkl')
 				# print clf
-				accuracy = clf.score(X_test,y_test) # test on data not used for training, is around 95%
+				# accuracy = clf.score(X_test,y_test) # test on data not used for training, is around 95%
 				
 				# print(accuracy)
 				# print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
@@ -144,12 +144,12 @@ class predictStocks:
 				# y_true = y_test
 				# y_pred = clf.predict(X_test)
 				# print f1_score(y_true, y_pred, average='binary') 
-				if accuracy > best_accuracy:
-					best_clf = clf
-					best_accuracy = accuracy
-					best_algo = 'XG'
+				# if accuracy > best_accuracy:
+				# 	best_clf = clf
+				# 	best_accuracy = accuracy
+				# 	best_algo = 'XG'
 
-			file_name = 'XGClf_%s.pkl' %symbol
+			# file_name = 'XGClf_%s.pkl' %symbol
 		joblib.dump(best_clf, file_name) # save the classifier to file
 		# print 'best accuracy:'
 		# print best_accuracy
@@ -187,47 +187,47 @@ class predictStocks:
 		# print gsearch2b.grid_scores_, gsearch2b.best_params_, gsearch2b.best_score_
 		pass	
 
-	def binaryClassifySaved(self,stocksDf, symbol, predict_index):
-		# stocksDf = stocksDf.drop(['Decision'], axis=1)
-		# predict_index = 14
-		stocksDf = stocksDf.dropna(how='any')
-		X = np.array(stocksDf)
-		# use same preprocessing scale used while training
-		# predicted_df = pd.DataFrame(clf.predict(to_predict), columns=['Predicted_Winner'])
-		# predicted_df.to_csv('predictions.csv', encoding='utf-8')
-		# print len(stocksDf['Adj. Close'].tail(predict_index))
-		predicted_df = pd.DataFrame()
-		predicted_df['to_predict'] = stocksDf['Adj. Close'].tail(predict_index)
-		predicted_df = predicted_df.reset_index(drop=True)
-		# print stocksDf['Adj. Close'].tail(predict_index)
-		X = preprocessing.scale(X)
+	# # def binaryClassifySaved(self,stocksDf, symbol, predict_index):
+	# # 	# stocksDf = stocksDf.drop(['Decision'], axis=1)
+	# # 	# predict_index = 14
+	# # 	stocksDf = stocksDf.dropna(how='any')
+	# # 	X = np.array(stocksDf)
+	# # 	# use same preprocessing scale used while training
+	# # 	# predicted_df = pd.DataFrame(clf.predict(to_predict), columns=['Predicted_Winner'])
+	# # 	# predicted_df.to_csv('predictions.csv', encoding='utf-8')
+	# # 	# print len(stocksDf['Adj. Close'].tail(predict_index))
+	# # 	predicted_df = pd.DataFrame()
+	# # 	predicted_df['to_predict'] = stocksDf['Adj. Close'].tail(predict_index)
+	# # 	predicted_df = predicted_df.reset_index(drop=True)
+	# # 	# print stocksDf['Adj. Close'].tail(predict_index)
+	# # 	X = preprocessing.scale(X)
 		
-		predict_values = X[len(X)-predict_index:] # future for last set dates
+	# # 	predict_values = X[len(X)-predict_index:] # future for last set dates
 
-		# print("Loading Classifier...")
+	# # 	# print("Loading Classifier...")
 
-		file_name = 'XGClf_%s.pkl' %symbol
-		clf = joblib.load(file_name)
-		# graph prediction and show dates of prediction
-		# print clf.predict(predict_values) # give array of last 10 days to get 1% into each values future
-		# predicted_df['Predicted'] = pd.DataFrame(clf.predict(predict_values))
-		temp_df = pd.DataFrame(clf.predict(predict_values), columns=['Predicted'])
-		# plot(stocksDf['Adj. Close'], "AAPL", "Date", "Prices")
-		frames = [predicted_df, temp_df]
-		result = pd.concat(frames, axis=1)
+	# # 	file_name = 'XGClf_%s.pkl' %symbol
+	# # 	clf = joblib.load(file_name)
+	# # 	# graph prediction and show dates of prediction
+	# # 	# print clf.predict(predict_values) # give array of last 10 days to get 1% into each values future
+	# # 	# predicted_df['Predicted'] = pd.DataFrame(clf.predict(predict_values))
+	# # 	temp_df = pd.DataFrame(clf.predict(predict_values), columns=['Predicted'])
+	# # 	# plot(stocksDf['Adj. Close'], "AAPL", "Date", "Prices")
+	# # 	frames = [predicted_df, temp_df]
+	# # 	result = pd.concat(frames, axis=1)
 
-		# le.classes_ = np.load('Label_Encoder.npy')
+	# 	# le.classes_ = np.load('Label_Encoder.npy')
 
-		# print result
-		cur_path = os.getcwd()
-		file_name = '/data/%s_predicted_classification.csv' %symbol
-		abs_path = cur_path+file_name
-		# print temp_df
-		temp_df.to_csv(abs_path, encoding='utf-8')
-		result = pd.concat(frames, axis=1)
+	# 	# print result
+	# 	cur_path = os.getcwd()
+	# 	file_name = '/data/%s_predicted_classification.csv' %symbol
+	# 	abs_path = cur_path+file_name
+	# 	# print temp_df
+	# 	temp_df.to_csv(abs_path, encoding='utf-8')
+	# 	result = pd.concat(frames, axis=1)
 
-		# print result
-		return abs_path
+	# 	# print result
+	# 	return abs_path
 
 	# returns file name of the csv with predicted values
 	def regressionSaved(self,stocksDf, symbol, predict_index):
@@ -362,55 +362,55 @@ class predictStocks:
 		stock = Share(stockName)
 		return stock.get_price()
 
-	def stocksClassify(self, stockName, forecast_out):
-		# check last line of training csv to see if latest data
-		self.download_data(stockName)
-		file_name = 'data/%s_training.csv' %stockName
-		read_df = pd.read_csv(file_name, index_col = "Date")
+	# def stocksClassify(self, stockName, forecast_out):
+	# 	# check last line of training csv to see if latest data
+	# 	self.download_data(stockName)
+	# 	file_name = 'data/%s_training.csv' %stockName
+	# 	read_df = pd.read_csv(file_name, index_col = "Date")
 
-		# print 'predicting into: ' + str(forecast_out)
+	# 	# print 'predicting into: ' + str(forecast_out)
 
-		read_df['Daily Returns'] = self.dailyReturn(read_df['Adj. Close'])
-		to_predict_df = read_df.copy(deep=True)
+	# 	read_df['Daily Returns'] = self.dailyReturn(read_df['Adj. Close'])
+	# 	to_predict_df = read_df.copy(deep=True)
 		
-		read_df['Future'] = read_df['Adj. Close'].shift(-forecast_out)
+	# 	read_df['Future'] = read_df['Adj. Close'].shift(-forecast_out)
 
-		read_df = read_df.dropna(how='any')
+	# 	read_df = read_df.dropna(how='any')
 
-		decisions = []
-		pe_ratio = []
-		for index, row in read_df.iterrows():
-			# floating point comparison careful
-			# if 1 % increase in two weeks, then classify as a buy
-			# another method is to get historical buy-sell ratings
-			if (round(row['Future'],3) > round((1.01*row['Adj. Close']),3)):
-				decisions.append('Buy')
-			elif (round(row['Future'],3) < ((-1.00*row['Adj. Close']),3)):
-				decisions.append('Sell')
-			else:
-				decisions.append('Hold')
+	# 	decisions = []
+	# 	pe_ratio = []
+	# 	for index, row in read_df.iterrows():
+	# 		# floating point comparison careful
+	# 		# if 1 % increase in two weeks, then classify as a buy
+	# 		# another method is to get historical buy-sell ratings
+	# 		if (round(row['Future'],3) > round((1.01*row['Adj. Close']),3)):
+	# 			decisions.append('Buy')
+	# 		elif (round(row['Future'],3) < ((-1.00*row['Adj. Close']),3)):
+	# 			decisions.append('Sell')
+	# 		else:
+	# 			decisions.append('Hold')
 	
-		read_df_binary = read_df.copy(deep=True)
-		read_df_binary['Decision'] = decisions
-		# print read_df_binary['Decision'].value_counts()
+	# 	read_df_binary = read_df.copy(deep=True)
+	# 	read_df_binary['Decision'] = decisions
+	# 	# print read_df_binary['Decision'].value_counts()
 
-		read_df_binary = read_df_binary.drop(['Future'], axis=1)
-		self.predictML(read_df_binary, False, stockName)
+	# 	read_df_binary = read_df_binary.drop(['Future'], axis=1)
+	# 	self.predictML(read_df_binary, False, stockName)
 
-		# print read_df_binary
+	# 	# print read_df_binary
 
-		cur_path = os.getcwd()
-		file_paths = []
-		file_training = 'data/%s_training.csv' %stockName
-		abs_path_training = cur_path+'/'+file_training
-		file_paths.append(self.binaryClassifySaved(to_predict_df, symbol, forecast_out))
-		file_paths.append(abs_path_training)
-		return file_paths
+	# 	cur_path = os.getcwd()
+	# 	file_paths = []
+	# 	file_training = 'data/%s_training.csv' %stockName
+	# 	abs_path_training = cur_path+'/'+file_training
+	# 	file_paths.append(self.binaryClassifySaved(to_predict_df, symbol, forecast_out))
+	# 	file_paths.append(abs_path_training)
+	# 	return file_paths
 
 if __name__ == "__main__":
 	predict = predictStocks()
 	symbol = 'GOOGL'
 	print predict.stocksRegression(symbol, 14)
-	print predict.stocksClassify(symbol, 14)
+	# print predict.stocksClassify(symbol, 14)
 	print predict.getCurrentPrice(symbol)
 
