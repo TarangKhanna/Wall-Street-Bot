@@ -157,4 +157,4 @@ XlsxWriter==0.9.3
 xlwings==0.10.0
 xlwt==1.1.2
 yahoo-finance==1.4.0
-enum34=1.1.6
+enum34==1.1.6
