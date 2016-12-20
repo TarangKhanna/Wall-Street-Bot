@@ -354,16 +354,17 @@ class predictStocks:
 		to_predict_df = to_predict_df[['Adj. Close']]
 
 		to_predict_df = to_predict_df.append(prediction_df)
+		to_predict_df = to_predict_df.tail(forecast_out)
+		return np.array(to_predict_df)
 
 		# do * 4 if you want to graph with previous values
 		# to_predict_df = to_predict_df.tail(forecast_out*4)
-		to_predict_df = to_predict_df.tail(forecast_out)
+
 		# print "merged:"
 		# print to_predict_df
 
 		# to_predict_df.to_csv(file_merged_path, encoding='utf-8')
         
-        return np.array(to_predict_df)
 
 		# using yahoo finance api to get current stock price
 	def getCurrentPrice(self, stockName):
