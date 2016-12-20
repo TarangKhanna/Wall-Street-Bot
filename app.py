@@ -74,19 +74,8 @@ def getStockPrediction(req):
     prediction = predictStocks()
     num_of_days = 14
     predicted_values = prediction.stocksRegression(stock_symbol, int(num_of_days))
-
-    # twitter_analyzer = twitter_analyze()
-    # twitter_data = twitter_analyzer.analyze_feelings(stock)
-    # print twitter_data
-    # current_price = prediction.getCurrentPrice(stock_symbol)
-#     data = {}
-#     data['positive'] = twitter_data[0]
-#     data['negative'] = twitter_data[1]
-#     data['neutral'] = twitter_data[2]
-# #    data['predicted'] = prediction_str[0]
-# #    data['training'] = prediction_str[1]
-    
-    return ''.join(predicted_values)
+    predicted_list = predicted_values.tolist()
+    return ''.join(predicted_list)
 
 def getStockCurrentPrice(req):
     result = req.get("result")
