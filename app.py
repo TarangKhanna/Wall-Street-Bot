@@ -87,7 +87,7 @@ def getStockCurrentPrice(req):
 
     prediction = predictStocks()
     current_price = prediction.getCurrentPrice(stock_symbol)
-    return current_price
+    return str(current_price)
 
 def makeWebhookResult(data):
 
