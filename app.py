@@ -86,7 +86,7 @@ def getStockPrediction(req):
 # #    data['predicted'] = prediction_str[0]
 # #    data['training'] = prediction_str[1]
     
-    return '\n'.join(predicted_values)
+    return ''.join(predicted_values)
 
 def getStockCurrentPrice(req):
     result = req.get("result")
