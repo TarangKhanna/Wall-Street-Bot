@@ -99,7 +99,6 @@ psutil==5.0.0
 ptyprocess==0.5.1
 py==1.4.31
 pyasn1==0.1.9
-PyAudio==0.2.7
 pycosat==0.6.1
 pycparser==2.17
 pycrypto==2.6.1
