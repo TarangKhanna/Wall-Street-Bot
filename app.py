@@ -28,16 +28,16 @@ def webhook():
 
 def processRequest(req):
     if req.get("result").get("action") == "CurrentPrice.price":   
-        data = json.loads(getStockCurrentPrice(req))
-        res = makeWebhookResult(data)
+        # data = json.loads(getStockCurrentPrice(req))
+        res = makeWebhookResult(getStockCurrentPrice(req))
         return res
     elif req.get("result").get("action") == "Prediction.stockForecast":
-        data = json.loads(getStockPrediction(req))
-        res = makeWebhookResult(data)
+        # data = json.loads(getStockPrediction(req))
+        res = makeWebhookResult(getStockPrediction(req))
         return res 
     elif req.get("result").get("action") == "Feelings.analyze":
-        data = json.loads(getTwitterFeelings(req))
-        res = makeWebhookResult(data)
+        # data = json.loads(getTwitterFeelings(req))
+        res = makeWebhookResult(getTwitterFeelings(req))
         return res
     else:
         return {}
@@ -62,7 +62,7 @@ def getTwitterFeelings(req):
     for key, value in d.iteritems():
         data_string += key + ' ' + str(value) + '\n'
 
-    return data_string
+    return str(data_string)
 
 def getStockPrediction(req):
     result = req.get("result")
