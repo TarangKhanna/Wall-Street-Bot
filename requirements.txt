@@ -1,10 +1,7 @@
-alabaster==0.7.9
-apiai==1.2.1
 appnope==0.1.0
 argcomplete==1.0.0
 astroid==1.4.7
 astropy==1.2.1
-Babel==2.3.4
 backports-abc==0.4
 backports.shutil-get-terminal-size==1.0.0
 backports.ssl-match-hostname==3.4.0.2
@@ -124,7 +121,6 @@ six==1.10.0
 snowballstemmer==1.2.1
 sockjs-tornado==1.0.3
 Sphinx==1.4.8
-spyder==3.0.1
 statsmodels==0.6.1
 sympy==1.0
 tables==3.3.0
@@ -136,10 +132,7 @@ traitlets==4.3.1
 tweepy==3.5.0
 unicodecsv==0.14.1
 wcwidth==0.1.7
-
-widgetsnbextension==1.2.6
 wrapt==1.10.8
-
 xlrd==1.0.0
 XlsxWriter==0.9.3
 xlwt==1.1.2
