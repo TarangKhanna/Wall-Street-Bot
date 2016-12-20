@@ -14,14 +14,14 @@ from sklearn.externals import joblib
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import pylab
 from sklearn.metrics import f1_score
 from sklearn.ensemble import RandomForestClassifier
 import time
 import os
 # for tuning hyper parameters we use grid search
-from sklearn.grid_search import GridSearchCV   #Perforing grid search
+# from sklearn.grid_search import GridSearchCV   #Perforing grid search
 # import xgboost
 import datetime
 from yahoo_finance import Share
