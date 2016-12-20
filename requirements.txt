@@ -85,9 +85,7 @@ notebook==4.2.3
 oauthlib==2.0.1
 odo==0.5.0
 openpyxl==2.4.0
-pandas==0.19.1
-partd==0.3.6
-path.py==0.0.0
+
 pathlib2==2.1.0
 patsy==0.4.1
 pep8==1.7.0
@@ -147,7 +145,7 @@ wcwidth==0.1.7
 
 widgetsnbextension==1.2.6
 wrapt==1.10.8
-xgboost==0.4
+
 xlrd==1.0.0
 XlsxWriter==0.9.3
 xlwings==0.10.0
