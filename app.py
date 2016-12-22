@@ -63,7 +63,7 @@ def getTwitterFeelings(req):
     for key, value in d.iteritems():
         data_string += key + ' ' + str(value) + '\n'
 
-    return str(data['positive'])
+    return str(data_string)
 
 def getStockPrediction(req):
     result = req.get("result")
