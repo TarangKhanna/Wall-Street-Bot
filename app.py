@@ -59,11 +59,18 @@ def getTwitterFeelings(req):
     data['negative'] = twitter_data[1]
     data['neutral'] = twitter_data[2]
 
-    data_string = ''
-    for key, value in data.iteritems():
-        data_string += key + ' ' + str(value) + '\n'
+    total = data['positive'] + data['negative'] + data['neutral']
 
-    return str(data_string)
+    positive_percent = percentage(data['positive'], total)
+    negative_percent = percentage(data['negative'], total)
+    neutral_percent = percentage(data['neutral'], total)
+
+    data_string = 'positive: ' + str(positive_percent) + 'negative: ' + str(negative_percent) + 'neutral: ' + str(neutral_percent)
+
+    return data_string
+
+def percentage(part, whole):
+    return 100 * float(part)/float(whole)
 
 def getStockPrediction(req):
     result = req.get("result")
