@@ -93,7 +93,7 @@ def makeWebhookResult(data):
     if req.get("result").get("action") == "CurrentPrice.price":
         speech = "Current Price for the stock is $" + str(data)
     elif req.get("result").get("action") == "Prediction.stockForecast":
-        speech = "Predicted price for next few days: " + str(data):
+        speech = "Predicted price for next few days: " + str(data)
     elif req.get("result").get("action") == "Feelings.analyze":
         speech = "Feelings about stock: " + str(data)
     else:
