@@ -29,15 +29,15 @@ def webhook():
 def processRequest(req):
     if req.get("result").get("action") == "CurrentPrice.price":   
         # data = json.loads(getStockCurrentPrice(req))
-        res = makeWebhookResult(getStockCurrentPrice(req))
+        res = makeWebhookResult(getStockCurrentPrice(req), req.get("result").get("action"))
         return res
     elif req.get("result").get("action") == "Prediction.stockForecast":
         # data = json.loads(getStockPrediction(req))
-        res = makeWebhookResult(getStockPrediction(req))
+        res = makeWebhookResult(getStockPrediction(req), req.get("result").get("action"))
         return res 
     elif req.get("result").get("action") == "Feelings.analyze":
         # data = json.loads(getTwitterFeelings(req))
-        res = makeWebhookResult(getTwitterFeelings(req))
+        res = makeWebhookResult(getTwitterFeelings(req), req.get("result").get("action"))
         return res
     else:
         return {}
@@ -89,12 +89,12 @@ def getStockCurrentPrice(req):
     current_price = prediction.getCurrentPrice(stock_symbol)
     return str(current_price)
 
-def makeWebhookResult(req):
-    if req.get("result").get("action") == "CurrentPrice.price":
+def makeWebhookResult(data, action):
+    if action == "CurrentPrice.price":
         speech = "Current Price for the stock is $" + str(data)
-    elif req.get("result").get("action") == "Prediction.stockForecast":
+    elif action == "Prediction.stockForecast":
         speech = "Predicted price for next few days: " + str(data)
-    elif req.get("result").get("action") == "Feelings.analyze":
+    elif action == "Feelings.analyze":
         speech = "Feelings about stock: " + str(data)
     else:
         return {}
