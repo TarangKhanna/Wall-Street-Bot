@@ -65,12 +65,12 @@ def getTwitterFeelings(req):
     negative_percent = percentage(data['negative'], total)
     neutral_percent = percentage(data['neutral'], total)
 
-    data_string = 'positive: ' + str(positive_percent) + 'negative: ' + str(negative_percent) + 'neutral: ' + str(neutral_percent)
+    data_string = 'positive: ' + str(positive_percent) + ' negative: ' + str(negative_percent) + ' neutral: ' + str(neutral_percent)
 
     return data_string
 
 def percentage(part, whole):
-    return 100 * float(part)/float(whole)
+    return round(100 * float(part)/float(whole), 3)
 
 def getStockPrediction(req):
     result = req.get("result")
