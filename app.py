@@ -42,6 +42,7 @@ def processRequest(req):
     else:
         return {}
 
+# analyze feelings intent
 def getTwitterFeelings(req):
     result = req.get("result")
     parameters = result.get("parameters")
@@ -65,13 +66,15 @@ def getTwitterFeelings(req):
     negative_percent = percentage(data['negative'], total)
     neutral_percent = percentage(data['neutral'], total)
 
-    data_string = 'positive: ' + str(positive_percent) + ' negative: ' + str(negative_percent) + ' neutral: ' + str(neutral_percent)
+    data_string = 'positive: ' + str(positive_percent) + '% negative: ' + str(negative_percent) + '% neutral: ' + str(neutral_percent) + '%'
 
     return data_string
 
+# make percentage and round
 def percentage(part, whole):
-    return round(100 * float(part)/float(whole), 3)
+    return round(100 * float(part)/float(whole), 2)
 
+# for intent prediction
 def getStockPrediction(req):
     result = req.get("result")
     parameters = result.get("parameters")
@@ -85,6 +88,7 @@ def getStockPrediction(req):
     predicted_list = predicted_values.tolist()
     return ''.join(str(v) for v in predicted_list)
 
+# intent current price
 def getStockCurrentPrice(req):
     result = req.get("result")
     parameters = result.get("parameters")
@@ -96,6 +100,7 @@ def getStockCurrentPrice(req):
     current_price = prediction.getCurrentPrice(stock_symbol)
     return str(current_price)
 
+# return to API.AI
 def makeWebhookResult(data, action):
     if action == "CurrentPrice.price":
         speech = "Current Price for the stock is $" + str(data)
