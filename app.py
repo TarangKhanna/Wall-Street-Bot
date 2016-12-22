@@ -60,7 +60,7 @@ def getTwitterFeelings(req):
     data['neutral'] = twitter_data[2]
 
     data_string = ''
-    for key, value in d.iteritems():
+    for key, value in data.iteritems():
         data_string += key + ' ' + str(value) + '\n'
 
     return str(data_string)
