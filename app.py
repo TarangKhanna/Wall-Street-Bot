@@ -89,7 +89,7 @@ def getStockCurrentPrice(req):
     current_price = prediction.getCurrentPrice(stock_symbol)
     return str(current_price)
 
-def makeWebhookResult(data):
+def makeWebhookResult(req):
     if req.get("result").get("action") == "CurrentPrice.price":
         speech = "Current Price for the stock is $" + str(data)
     elif req.get("result").get("action") == "Prediction.stockForecast":
