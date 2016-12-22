@@ -51,6 +51,7 @@ def getTwitterFeelings(req):
 
     twitter_analyzer = twitter_analyze()
     twitter_data = twitter_analyzer.analyze_feelings(stock_symbol)
+    print 'Twitter data:'
     print twitter_data
 
     data = {}
@@ -72,7 +73,7 @@ def getStockPrediction(req):
         return None
 
     prediction = predictStocks()
-    num_of_days = 14
+    num_of_days = 3
     predicted_values = prediction.stocksRegression(stock_symbol, int(num_of_days))
     predicted_list = predicted_values.tolist()
     return ''.join(str(v) for v in predicted_list)
@@ -89,8 +90,14 @@ def getStockCurrentPrice(req):
     return str(current_price)
 
 def makeWebhookResult(data):
-
-    speech = "Current Price for the stock is $" + str(data)
+    if req.get("result").get("action") == "CurrentPrice.price":
+        speech = "Current Price for the stock is $" + str(data)
+    elif req.get("result").get("action") == "Prediction.stockForecast":
+        speech = "Predicted price for next few days: " + str(data):
+    elif req.get("result").get("action") == "Feelings.analyze":
+        speech = "Feelings about stock: " + str(data)
+    else:
+        return {}
 
     print("Response:")
     print(speech)
