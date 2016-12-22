@@ -1,4 +1,3 @@
-# sentiment analysis on tweets for AAPL
 # TODO-get more tweets 
 # TODO-tweets from reliable accounts
 # TODO-take into account retweets,likes,time,followers
@@ -36,16 +35,21 @@ class twitter_analyze:
 	# Todo plot according to location
 	def analyze_feelings(self, stock):
 		
-		tweets_file = 'data/%s_tweets.csv' %stock
+		# tweets_file = 'data/%s_tweets.csv' %stock
 
 		# if not os.path.isfile(tweets_file) : 
-		self.analyze_stock(stock)
+		tweets = self.analyze_stock(stock)
 		
-		tweets = pd.read_csv('data/%s_tweets.csv' %stock)
+		# tweets = pd.read_csv('data/%s_tweets.csv' %stock)
 
 		sentiment = []
 		for index, row in tweets.iterrows():
-			value = round(row['polarity'], 3)
+			value = 0.0
+			if isinstance(row['polarity'], float):
+				value = round(row['polarity'], 3)
+			else:
+				x = float(row['polarity'])
+				value = round(x, 3)
 			if value < 0.0:
 				sentiment.append('negative')
 			elif value == 0.0:
@@ -55,7 +59,7 @@ class twitter_analyze:
 
 		tweets['sentiment'] = sentiment
 		# tweets['sentiment'].value_counts().plot(kind='bar')
-		tweets['sentiment'].value_counts().plot(kind='pie')
+		# tweets['sentiment'].value_counts().plot(kind='pie')
 		# plt.show()
 		print tweets
 		counts_list = []
@@ -63,18 +67,16 @@ class twitter_analyze:
 		counts_list.append(tweets['sentiment'].value_counts()['positive'])
 		counts_list.append(tweets['sentiment'].value_counts()['negative'])
 		counts_list.append(tweets['sentiment'].value_counts()['neutral'])
-		file_feelings = ('data/%s_feelings.csv' % stock)
-		cur_path = os.getcwd()
-		abs_path_feelings = cur_path+'/'+file_feelings
-		with open(file_feelings, "w") as output:
-		    writer = csv.writer(output, lineterminator='\n')
-		    for val in counts_list:
-		        writer.writerow([val])  
 
+		# file_feelings = ('data/%s_feelings.csv' % stock)
+		# cur_path = os.getcwd()
+		# abs_path_feelings = cur_path+'/'+file_feelings
+		# with open(file_feelings, "w") as output:
+		#     writer = csv.writer(output, lineterminator='\n')
+		#     for val in counts_list:
+		#         writer.writerow([val])  
 
-		shutil.copy(abs_path_feelings, "/Users/THacked96/Documents/Workspace_Main/StockForcasting/FrontEnd/")
-
-		return "/Users/THacked96/Documents/Workspace_Main/StockForcasting/FrontEnd/" + ('%s_feelings.csv' % stock)
+		return counts_list
 
 	def analyze_stock(self, stock):
 		all_tweets = self.get_tweets(stock)
@@ -98,10 +100,10 @@ class twitter_analyze:
 		tweets['polarity'] = np.array(polarity_list)
 		tweets['subjectivity'] = np.array(subjectivity_list)
 		tweets['date'] = np.array(tweet_dates)
-		tweets = tweets.sort_values(by=['subjectivity'], ascending=0)
+		# tweets = tweets.sort_values(by=['subjectivity'], ascending=0)
 		print tweets
-		tweets.to_csv('data/%s_tweets.csv' % stock)
-		
+		# tweets.to_csv('data/%s_tweets.csv' % stock)
+		return tweets
 
 	def get_tweets(self, stock):
 		alltweets = []  
@@ -125,7 +127,7 @@ class twitter_analyze:
 		    
 		    print "...%s tweets downloaded so far" % (len(alltweets))
 
-		    if len(alltweets) > 1000:
+		    if len(alltweets) > 500:
 		    	break
 
 		#transform the tweepy tweets into a 2D array that will populate the csv 
@@ -137,7 +139,6 @@ if __name__ == "__main__":
 	analyze = twitter_analyze()
 	# analyze.analyze_stock('$AAPL')
 	print analyze.analyze_feelings('$TSLA')
-
-	analyze.analyze_feelings('$AAPL')
-	analyze.analyze_feelings('$GOOGL')
+	# analyze.analyze_feelings('$AAPL')
+	# analyze.analyze_feelings('$GOOGL')
 

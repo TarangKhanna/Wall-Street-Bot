@@ -17,9 +17,9 @@ from sklearn.linear_model import LinearRegression
 # import matplotlib.pyplot as plt
 # import pylab
 from sklearn.metrics import f1_score
-from sklearn.ensemble import RandomForestClassifier
+# from sklearn.ensemble import RandomForestClassifier
 import time
-import os
+# import os
 # for tuning hyper parameters we use grid search
 # from sklearn.grid_search import GridSearchCV   #Perforing grid search
 # import xgboost
@@ -74,7 +74,7 @@ class predictStocks:
 		
 		# print y
 
-		best_clf = RandomForestClassifier(min_samples_leaf=2, n_estimators=100)
+		best_clf = LinearRegression(n_jobs=-1)
 		# best_clf = KNeighborsClassifier(n_neighbors=10, weights='uniform', algorithm='auto', leaf_size=30, p=2, metric='minkowski', metric_params=None, n_jobs=-1)
 		best_accuracy = 0.0
 		best_algo = 'RF'
