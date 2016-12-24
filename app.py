@@ -117,18 +117,20 @@ def makeWebhookResult(data, action):
     return {
         "speech": speech,
         "displayText": speech,
-        "source": "apiai-wallstreetbot-webhook",
-        "data": {
-        "facebook": {
-          "attachment": {
-            "type": "image",
-            "payload": {
-            "url": "https://www.testclan.com/images/testbot/siege/weapons/assault-rifles.jpg"
-             }
-            }
-          }
-        }
+        "source": "apiai-wallstreetbot-webhook"
     }
+
+    # Image example
+    # "data": {
+    #     "facebook": {
+    #       "attachment": {
+    #         "type": "image",
+    #         "payload": {
+    #         "url": "https://www.testclan.com/images/testbot/siege/weapons/assault-rifles.jpg"
+    #          }
+    #         }
+    #       }
+    #     }
 
     
 
