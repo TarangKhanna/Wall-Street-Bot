@@ -117,8 +117,20 @@ def makeWebhookResult(data, action):
     return {
         "speech": speech,
         "displayText": speech,
-        "source": "apiai-wallstreetbot-webhook"
+        "source": "apiai-wallstreetbot-webhook",
+        "data": {
+        "facebook": {
+          "attachment": {
+            "type": "image",
+            "payload": {
+            "url": "https://www.testclan.com/images/testbot/siege/weapons/assault-rifles.jpg"
+             }
+            }
+          }
+        }
     }
+
+    
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
