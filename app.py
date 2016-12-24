@@ -104,6 +104,56 @@ def getStockCurrentPrice(req):
 def makeWebhookResult(data, action):
     if action == "CurrentPrice.price":
         speech = "Current Price for the stock is $" + str(data)
+        return {
+            "speech": speech,
+            "displayText": speech,
+            "source": "apiai-wallstreetbot-webhook", 
+            "data": {
+                "facebook": {
+                  "attachment": {
+                    "type": "template",
+                    "payload": {
+                            "template_type":"button",
+                            "text":"What do you want to do next?",
+                            "buttons":[
+                              {
+                                "type":"web_url",
+                                "url":"http://facebook.com/tarangalbert/",
+                                "title":"Show Website"
+                              },
+                              {
+                                "type":"postback",
+                                "title":"Start Chatting",
+                                "payload":"USER_DEFINED_PAYLOAD"
+                              }
+                            ]
+                        }
+                     }
+                }
+            }
+        }
+         # "message":{
+         #    "attachment":{
+         #      "type":"template",
+         #      "payload":{
+         #        "template_type":"button",
+         #        "text":"What do you want to do next?",
+         #        "buttons":[
+         #          {
+         #            "type":"web_url",
+         #            "url":"https://petersapparel.parseapp.com",
+         #            "title":"Show Website"
+         #          },
+         #          {
+         #            "type":"postback",
+         #            "title":"Start Chatting",
+         #            "payload":"USER_DEFINED_PAYLOAD"
+         #          }
+         #        ]
+         #      }
+         #    }
+         #  }
+
     elif action == "Prediction.stockForecast":
         speech = "Predicted price for next few days: " + str(data)
     elif action == "Feelings.analyze":
