@@ -107,7 +107,7 @@ def getStockCurrentPrice(req):
 def makeWebhookResult(data, action, stock_symbol):
     if action == "CurrentPrice.price":
         speech = "Current Price for the stock is $" + str(data)
-        next_speech = "Predict price for " + stock_symbol
+        next_speech = "Predict " + stock_symbol
         news_speech = "News for " + stock_symbol
         news_url = "http://finance.yahoo.com/quote/" + stock_symbol
         return {
