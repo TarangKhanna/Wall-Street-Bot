@@ -130,7 +130,7 @@ def makeWebhookResult(data, action, stock_symbol):
                               {
                                 "type":"postback",
                                 "title":next_speech,
-                                "payload":"USER_DEFINED_PAYLOAD"
+                                "payload":"DEVELOPER_DEFINED_PAYLOAD"
                               }
                             ]
                         }
@@ -138,32 +138,11 @@ def makeWebhookResult(data, action, stock_symbol):
                 }
             }
         }
-         # "message":{
-         #    "attachment":{
-         #      "type":"template",
-         #      "payload":{
-         #        "template_type":"button",
-         #        "text":"What do you want to do next?",
-         #        "buttons":[
-         #          {
-         #            "type":"web_url",
-         #            "url":"https://petersapparel.parseapp.com",
-         #            "title":"Show Website"
-         #          },
-         #          {
-         #            "type":"postback",
-         #            "title":"Start Chatting",
-         #            "payload":"USER_DEFINED_PAYLOAD"
-         #          }
-         #        ]
-         #      }
-         #    }
-         #  }
 
     elif action == "Prediction.stockForecast":
         speech = "Predicted price for next few days: " + str(data)
     elif action == "Feelings.analyze":
-        speech = "Feelings about stock: " + str(data)
+        speech = "Feelings for " + stock_symbol + ": " + str(data)
     else:
         return {}
 
