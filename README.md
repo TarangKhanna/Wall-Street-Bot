@@ -1,5 +1,9 @@
 # wallstreetbot
-chatbot for stock predictions 
+
+Start talking to the bot:
+https://www.facebook.com/stockpredictions/?fref=ts
+
+Chatbot for stock predictions 
 
 NLP: API.AI
 
