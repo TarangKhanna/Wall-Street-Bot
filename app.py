@@ -32,15 +32,15 @@ def processRequest(req):
     stock_symbol = parameters.get("stock_symbol")
     if req.get("result").get("action") == "CurrentPrice.price":   
         # data = json.loads(getStockCurrentPrice(req))
-        res = makeWebhookResult(getStockCurrentPrice(req), req.get("result").get("action"), stock_symbol)
+        res = makeWebhookResult(getStockCurrentPrice(req), req, stock_symbol)
         return res
     elif req.get("result").get("action") == "Prediction.stockForecast":
         # data = json.loads(getStockPrediction(req))
-        res = makeWebhookResult(getStockPrediction(req), req.get("result").get("action"), stock_symbol)
+        res = makeWebhookResult(getStockPrediction(req), req, stock_symbol)
         return res 
     elif req.get("result").get("action") == "Feelings.analyze":
         # data = json.loads(getTwitterFeelings(req))
-        res = makeWebhookResult(getTwitterFeelings(req), req.get("result").get("action"), stock_symbol)
+        res = makeWebhookResult(getTwitterFeelings(req), req, stock_symbol)
         return res
     else:
         return {}
@@ -104,40 +104,44 @@ def getStockCurrentPrice(req):
     return str(current_price)
 
 # return to API.AI
-def makeWebhookResult(data, action, stock_symbol):
+def makeWebhookResult(data, req, stock_symbol):
+    action = req.get("result").get("action")
+    source = req.get("originalRequest").get("source")
     if action == "CurrentPrice.price":
         speech = "Current Price for the stock is $" + str(data)
         next_speech = "Predict " + stock_symbol
         news_speech = "News for " + stock_symbol
         news_url = "http://finance.yahoo.com/quote/" + stock_symbol
-        return {
-            "speech": speech,
-            "displayText": speech,
-            "source": "apiai-wallstreetbot-webhook", 
-            "data": {
-                "facebook": {
-                  "attachment": {
-                    "type": "template",
-                    "payload": {
-                            "template_type":"button",
-                            "text":speech,
-                            "buttons":[
-                              {
-                                "type":"web_url",
-                                "url":news_url,
-                                "title":news_speech
-                              },
-                              {
-                                "type":"postback",
-                                "title":next_speech,
-                                "payload":"DEVELOPER_DEFINED_PAYLOAD"
-                              }
-                            ]
-                        }
-                     }
+
+        if source == 'facebook':
+            return {
+                "speech": speech,
+                "displayText": speech,
+                "source": "apiai-wallstreetbot-webhook", 
+                "data": {
+                    "facebook": {
+                      "attachment": {
+                        "type": "template",
+                        "payload": {
+                                "template_type":"button",
+                                "text":speech,
+                                "buttons":[
+                                  {
+                                    "type":"web_url",
+                                    "url":news_url,
+                                    "title":news_speech
+                                  },
+                                  {
+                                    "type":"postback",
+                                    "title":next_speech,
+                                    "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                                  }
+                                ]
+                            }
+                         }
+                    }
                 }
             }
-        }
 
     elif action == "Prediction.stockForecast":
         speech = "Predicted price for next few days: " + str(data)
