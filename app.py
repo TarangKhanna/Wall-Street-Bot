@@ -134,7 +134,7 @@ def makeWebhookResult(data, req, stock_symbol):
                                   {
                                     "type":"postback",
                                     "title":next_speech,
-                                    "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                                    "payload":"USER_DEFINED_PAYLOAD"
                                   }
                                 ]
                             }
