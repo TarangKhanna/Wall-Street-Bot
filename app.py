@@ -8,7 +8,7 @@ from flask import make_response
 from predictStocks import predictStocks
 from twitter_analyze import twitter_analyze
 from yahoo_finance import Share
-import datetime
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -51,6 +51,9 @@ def processRequest(req):
     elif req.get("result").get("action") == "Stock.info":
         # data = json.loads(getTwitterFeelings(req))
         res = makeWebhookResult(getStockInfo(req), req, stock_symbol)
+        return res
+    elif req.get("result").get("action") == "Stock.historical":
+        res = makeWebhookResult(getHistoricalData(req), req, stock_symbol)
         return res
     else:
         return {}
@@ -138,6 +141,25 @@ def getStockInfo(req):
     stock = Share(stock_symbol)
     info = stock.get_info()
     return str(info)
+
+# last 5 days data
+def getHistoricalData(req):
+    result = req.get("result")
+    parameters = result.get("parameters")
+    stock_symbol = parameters.get("stock_symbol")
+    if stock_symbol is None:
+        return None
+
+    last_days = 5
+
+    past_days_ago = datetime.now() - timedelta(days=last_days)
+    past_days_ago_str = past_days_ago.strftime('%Y-%m-%d')
+
+    now = datetime.now().date()
+    now_str = now.strftime('%Y-%m-%d')
+
+    stock = Share(stock_symbol)
+    return str(stock.get_historical(past_days_ago_str, now_str))
 
 # return to API.AI
 def makeWebhookResult(data, req, stock_symbol):
