@@ -106,7 +106,10 @@ def getStockCurrentPrice(req):
 # return to API.AI
 def makeWebhookResult(data, req, stock_symbol):
     action = req.get("result").get("action")
-    source = req.get("originalRequest").get("source")
+    originalRequest1 = req.get("originalRequest")
+    source = ''
+    if originalRequest1 != None:
+        source = originalRequest1.get("source")
     if action == "CurrentPrice.price":
         speech = "Current Price for the stock is $" + str(data)
         next_speech = "Predict " + stock_symbol
