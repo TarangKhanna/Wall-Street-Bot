@@ -123,6 +123,8 @@ def getStockDividendPayDate(req):
 
     stock = Share(stock_symbol)
     pay_date = stock.get_dividend_pay_date()
+    if pay_date is None:
+        return 'No Dividend Date Avaliable'
     return str(pay_date)
 
 
