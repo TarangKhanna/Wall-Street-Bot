@@ -7,6 +7,8 @@ from flask import request
 from flask import make_response
 from predictStocks import predictStocks
 from twitter_analyze import twitter_analyze
+from yahoo_finance import Share
+import datetime
 
 app = Flask(__name__)
 
@@ -41,6 +43,14 @@ def processRequest(req):
     elif req.get("result").get("action") == "Feelings.analyze":
         # data = json.loads(getTwitterFeelings(req))
         res = makeWebhookResult(getTwitterFeelings(req), req, stock_symbol)
+        return res
+    elif req.get("result").get("action") == "DividendDate.Date":
+        # data = json.loads(getTwitterFeelings(req))
+        res = makeWebhookResult(getStockDividendPayDate(req), req, stock_symbol)
+        return res
+    elif req.get("result").get("action") == "Stock.info":
+        # data = json.loads(getTwitterFeelings(req))
+        res = makeWebhookResult(getStockInfo(req), req, stock_symbol)
         return res
     else:
         return {}
@@ -103,6 +113,30 @@ def getStockCurrentPrice(req):
     current_price = prediction.getCurrentPrice(stock_symbol)
     return str(current_price)
 
+# intent dividend date
+def getStockDividendPayDate(req):
+    result = req.get("result")
+    parameters = result.get("parameters")
+    stock_symbol = parameters.get("stock_symbol")
+    if stock_symbol is None:
+        return None
+
+    stock = Share(stock_symbol)
+    pay_date = stock.get_dividend_pay_date()
+    return str(pay_date)
+
+
+def getStockInfo(req):
+    result = req.get("result")
+    parameters = result.get("parameters")
+    stock_symbol = parameters.get("stock_symbol")
+    if stock_symbol is None:
+        return None
+
+    stock = Share(stock_symbol)
+    info = stock.get_info()
+    return str(info)
+
 # return to API.AI
 def makeWebhookResult(data, req, stock_symbol):
     action = req.get("result").get("action")
@@ -151,7 +185,7 @@ def makeWebhookResult(data, req, stock_symbol):
     elif action == "Feelings.analyze":
         speech = "Feelings for " + stock_symbol + ": " + str(data)
     else:
-        return {}
+        speech = str(data)
 
     print("Response:")
     print(speech)

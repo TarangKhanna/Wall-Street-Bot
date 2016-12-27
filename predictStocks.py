@@ -368,6 +368,10 @@ class predictStocks:
 		stock = Share(stockName)
 		return stock.get_price()
 
+	def getDividendPayDate(self, stockName):
+		stock = Share(stockName)
+		return stock.get_dividend_pay_date()
+
 	# def stocksClassify(self, stockName, forecast_out):
 	# 	# check last line of training csv to see if latest data
 	# 	self.download_data(stockName)
