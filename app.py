@@ -33,27 +33,25 @@ def processRequest(req):
     parameters = result.get("parameters")
     stock_symbol = parameters.get("stock_symbol")
     if req.get("result").get("action") == "CurrentPrice.price":   
-        # data = json.loads(getStockCurrentPrice(req))
         res = makeWebhookResult(getStockCurrentPrice(req), req, stock_symbol)
         return res
     elif req.get("result").get("action") == "Prediction.stockForecast":
-        # data = json.loads(getStockPrediction(req))
         res = makeWebhookResult(getStockPrediction(req), req, stock_symbol)
         return res 
     elif req.get("result").get("action") == "Feelings.analyze":
-        # data = json.loads(getTwitterFeelings(req))
         res = makeWebhookResult(getTwitterFeelings(req), req, stock_symbol)
         return res
     elif req.get("result").get("action") == "DividendDate.Date":
-        # data = json.loads(getTwitterFeelings(req))
         res = makeWebhookResult(getStockDividendPayDate(req), req, stock_symbol)
         return res
     elif req.get("result").get("action") == "Stock.info":
-        # data = json.loads(getTwitterFeelings(req))
         res = makeWebhookResult(getStockInfo(req), req, stock_symbol)
         return res
     elif req.get("result").get("action") == "Stock.historical":
         res = makeWebhookResult(getHistoricalData(req), req, stock_symbol)
+        return res
+    elif req.get("result").get("action") == "Decision.Classification":
+        res = makeWebhookResult(getStockClassification(req), req, stock_symbol)
         return res
     else:
         return {}
@@ -113,7 +111,24 @@ def getStockPrediction(req):
 
 # invest or not
 def getStockClassification(req):
-    pass
+    result = req.get("result")
+    parameters = result.get("parameters")
+    stock_symbol = parameters.get("stock_symbol")
+
+    time = parameters.get("date-period")
+
+    if stock_symbol is None:
+        return None
+
+    num_of_days = 3
+    if time != '' and time is not None:
+        num_of_days = extract_days(time)
+
+    prediction = predictStocks()
+    
+    predicted_values = prediction.stocksNeuralNet(stock_symbol, int(num_of_days))
+    predicted_list = predicted_values.tolist()[-1]
+    return predicted_list
 
 def extract_days(time):
     num_days = 3
@@ -235,6 +250,8 @@ def makeWebhookResult(data, req, stock_symbol):
         speech = "Predicted price for next few days: " + str(data)
     elif action == "Feelings.analyze":
         speech = "Feelings for " + stock_symbol + ": " + str(data)
+    elif action == "Decision.Classification":
+        speech = "I think we should " + str(data) + " " + stock_symbol 
     else:
         speech = str(data)
 
@@ -247,6 +264,8 @@ def makeWebhookResult(data, req, stock_symbol):
         "source": "apiai-wallstreetbot-webhook"
     }
 
+    #gif example
+
     # Image example
     # "data": {
     #     "facebook": {
@@ -258,8 +277,6 @@ def makeWebhookResult(data, req, stock_symbol):
     #         }
     #       }
     #     }
-
-    
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
