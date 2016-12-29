@@ -97,11 +97,12 @@ def getStockPrediction(req):
     stock_symbol = parameters.get("stock_symbol")
 
     time = parameters.get("date-period")
+
     if stock_symbol is None:
         return None
 
     num_of_days = 3
-    if time is not None:
+    if not time and time is not None:
         num_of_days = extract_days(time)
 
     prediction = predictStocks()
