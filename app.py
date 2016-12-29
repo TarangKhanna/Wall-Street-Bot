@@ -95,15 +95,33 @@ def getStockPrediction(req):
     result = req.get("result")
     parameters = result.get("parameters")
     stock_symbol = parameters.get("stock_symbol")
+
+    time = parameters.get("date-period")
     if stock_symbol is None:
         return None
 
-    prediction = predictStocks()
     num_of_days = 3
+    if time is not None:
+        num_of_days = extract_days(time)
+
+    prediction = predictStocks()
+    
     predicted_values = prediction.stocksRegression(stock_symbol, int(num_of_days))
     predicted_list = predicted_values.tolist()
     return ''.join(str(v) for v in predicted_list)
 
+def extract_days(time):
+    num_days = 3
+
+    dates = time.split('/')
+
+    first = datetime.datetime.strptime(dates[0], "%Y-%m-%d").date()
+    second = datetime.datetime.strptime(dates[1], "%Y-%m-%d").date()
+
+    num_days = (second - first).days+1
+
+    return num_days
+    
 # intent current price
 def getStockCurrentPrice(req):
     result = req.get("result")
@@ -129,7 +147,6 @@ def getStockDividendPayDate(req):
     if pay_date is None:
         return 'No Dividend Date Avaliable'
     return str(pay_date)
-
 
 def getStockInfo(req):
     result = req.get("result")
@@ -173,7 +190,7 @@ def makeWebhookResult(data, req, stock_symbol):
         next_speech = "Predict " + stock_symbol
         news_speech = "News for " + stock_symbol
         news_url = "http://finance.yahoo.com/quote/" + stock_symbol
-
+        feelings_speech = 'Feelings ' + stock_symbol
         if source == 'facebook':
             return {
                 "speech": speech,
@@ -196,6 +213,11 @@ def makeWebhookResult(data, req, stock_symbol):
                                     "type":"postback",
                                     "title":next_speech,
                                     "payload":next_speech
+                                  },
+                                  {
+                                    "type":"postback",
+                                    "title":feelings_speech,
+                                    "payload":feelings_speech
                                   }
                                 ]
                             }

@@ -14,6 +14,7 @@ from sklearn.externals import joblib
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+from sklearn.neural_network import MLPClassifier
 # import matplotlib.pyplot as plt
 # import pylab
 from sklearn.metrics import f1_score
@@ -33,16 +34,14 @@ class predictStocks:
 
 	def predictML(self,stocksDf, useRegression, symbol):
 		stocksDf = stocksDf.dropna(how='any')
-		# print stocksDf
-		# X = np.array()
+
 		if useRegression:
 			X = np.array(stocksDf.drop(['Future'],1))
 		else:
 			X = np.array(stocksDf.drop(['Decision'],1))
 
 		X = preprocessing.scale(X)
-		predict_index = len(X)-2
-		predict_value = X[predict_index-20:]
+
 		# X = X[:predict_index-2]
 		# print(X.shape)
 
@@ -55,25 +54,8 @@ class predictStocks:
 		else:
 			y = np.array(stocksDf['Decision']) 
 
-		# lb = preprocessing.LabelBinarizer(neg_label=0, pos_label=1, sparse_output=False)
-		# # lb.fit([0,1])
-		# y = lb.fit_transform(y)
-
-		# le_decision = preprocessing.LabelEncoder()
-
-		#to convert into numbers
-
-		# y = le_decision.fit_transform(y)
-
-		#to convert back
-
-		# y = le_decision.inverse_transform(y)
-
-		# y = y[:predict_index-2] # to keep consistent
 		X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.5) # 50% training data, 50% testing 
 		
-		# print y
-
 		best_clf = LinearRegression(n_jobs=-1)
 		# best_clf = KNeighborsClassifier(n_neighbors=10, weights='uniform', algorithm='auto', leaf_size=30, p=2, metric='minkowski', metric_params=None, n_jobs=-1)
 		best_accuracy = 0.0
@@ -155,71 +137,85 @@ class predictStocks:
 		# print 'best accuracy:'
 		# print best_accuracy
 
-	def modelOptimization(self):	
-		# param_test1 = {
-		# 	'max_depth':range(3,10,2),
-		# 	'min_child_weight':range(1,6,2)
-		# }
-		# gsearch1 = GridSearchCV(estimator = xgboost.XGBClassifier( learning_rate =0.1, n_estimators=140, max_depth=5,
-		# 	min_child_weight=1, gamma=0, subsample=0.8, colsample_bytree=0.8,
-		# 	objective= 'binary:logistic', nthread=4, scale_pos_weight=1, seed=27), 
-		# 	param_grid = param_test1, scoring='roc_auc',n_jobs=4,iid=False, cv=5)
-		# gsearch1.fit(X_train,y_train)
-		# print gsearch1.grid_scores_, gsearch1.best_params_, gsearch1.best_score_	
-		# param_test2 = {
-		#  'max_depth':[6,7,8],
-		#  'min_child_weight':[2,3,4]
-		# }
-		# gsearch2 = GridSearchCV(estimator = xgboost.XGBClassifier( learning_rate=0.1, n_estimators=140, max_depth=5,
-		#  min_child_weight=2, gamma=0, subsample=0.8, colsample_bytree=0.8,
-		#  objective= 'binary:logistic', nthread=4, scale_pos_weight=1,seed=27), 
-		#  param_grid = param_test2, scoring='roc_auc',n_jobs=4,iid=False, cv=5)
-		# gsearch2.fit(X_train,y_train)
-		# print gsearch2.grid_scores_, gsearch2.best_params_, gsearch2.best_score_
+	# predict using neural network
+	def predictNN(self,stocksDf, useRegression, symbol):
+		stocksDf = stocksDf.dropna(how='any')
 
-		# param_test2b = {
-		#  'min_child_weight':[2,6,8,10,12]
-		# }
-		# gsearch2b = GridSearchCV(estimator = xgboost.XGBClassifier( learning_rate=0.1, n_estimators=140, max_depth=4,
-		#  min_child_weight=2, gamma=0, subsample=0.8, colsample_bytree=0.8,
-		#  objective= 'binary:logistic', nthread=4, scale_pos_weight=1,seed=27), 
-		#  param_grid = param_test2b, scoring='roc_auc',n_jobs=4,iid=False, cv=5)
-		# gsearch2b.fit(X_train,y_train)	
-		# print gsearch2b.grid_scores_, gsearch2b.best_params_, gsearch2b.best_score_
-		pass	
+		X = np.array(stocksDf.drop(['Decision'],1))
 
-	# # def binaryClassifySaved(self,stocksDf, symbol, predict_index):
-	# # 	# stocksDf = stocksDf.drop(['Decision'], axis=1)
-	# # 	# predict_index = 14
-	# # 	stocksDf = stocksDf.dropna(how='any')
-	# # 	X = np.array(stocksDf)
-	# # 	# use same preprocessing scale used while training
-	# # 	# predicted_df = pd.DataFrame(clf.predict(to_predict), columns=['Predicted_Winner'])
-	# # 	# predicted_df.to_csv('predictions.csv', encoding='utf-8')
-	# # 	# print len(stocksDf['Adj. Close'].tail(predict_index))
-	# # 	predicted_df = pd.DataFrame()
-	# # 	predicted_df['to_predict'] = stocksDf['Adj. Close'].tail(predict_index)
-	# # 	predicted_df = predicted_df.reset_index(drop=True)
-	# # 	# print stocksDf['Adj. Close'].tail(predict_index)
-	# # 	X = preprocessing.scale(X)
+		X = preprocessing.scale(X)
+		y = np.array(stocksDf['Decision']) 
+
+		X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.5) # 50% training data, 50% testing 
+
+		# clf = MLPClassifier(solver='lbfgs', alpha=1e-5,
+		#                     hidden_layer_sizes=(5, 2), random_state=1)
+
+		mlp = MLPClassifier(activation='relu', alpha=1e-05, batch_size='auto',
+		       beta_1=0.9, beta_2=0.999, early_stopping=False,
+		       epsilon=1e-08, hidden_layer_sizes=(5, 2), learning_rate='constant',
+		       learning_rate_init=0.001, max_iter=200, momentum=0.9,
+		       nesterovs_momentum=True, power_t=0.5, random_state=1, shuffle=True,
+		       solver='lbfgs', tol=0.0001, validation_fraction=0.1, verbose=False,
+		       warm_start=False)
+
+		mlp.fit(X_train, y_train)    
+		print mlp.score(X_test, y_test) 
+
+		# y_true = y_test
+		# y_pred = clf.predict(X_test)
+		# print f1_score(y_true, y_pred, average='macro')                     
 		
-	# # 	predict_values = X[len(X)-predict_index:] # future for last set dates
+		return mlp
 
-	# # 	# print("Loading Classifier...")
+	def nerualNetClassify(self, stocksDf, symbol, predict_index, clf):
+		stocksDf = stocksDf.dropna(how='any')
+		X = np.array(stocksDf)
+		X = preprocessing.scale(X)
 
-	# # 	file_name = 'XGClf_%s.pkl' %symbol
-	# # 	clf = joblib.load(file_name)
-	# # 	# graph prediction and show dates of prediction
-	# # 	# print clf.predict(predict_values) # give array of last 10 days to get 1% into each values future
-	# # 	# predicted_df['Predicted'] = pd.DataFrame(clf.predict(predict_values))
-	# # 	temp_df = pd.DataFrame(clf.predict(predict_values), columns=['Predicted'])
-	# # 	# plot(stocksDf['Adj. Close'], "AAPL", "Date", "Prices")
-	# # 	frames = [predicted_df, temp_df]
-	# # 	result = pd.concat(frames, axis=1)
+		predicted_df = pd.DataFrame()
+		predicted_df['to_predict'] = stocksDf['Adj. Close'].tail(predict_index)
+		predicted_df = predicted_df.reset_index(drop=True)
+		predict_values = X[len(X)-predict_index:] # future for last set dates
+		temp_df = pd.DataFrame(clf.predict(predict_values), columns=['Predicted'])
+
+		frames = [predicted_df, temp_df]
+		result = pd.concat(frames, axis=1)
+
+		return temp_df
+
+	# def binaryClassifySaved(self,stocksDf, symbol, predict_index):
+	# 	# stocksDf = stocksDf.drop(['Decision'], axis=1)
+	# 	# predict_index = 14
+	# 	stocksDf = stocksDf.dropna(how='any')
+	# 	X = np.array(stocksDf)
+	# 	# use same preprocessing scale used while training
+	# 	# predicted_df = pd.DataFrame(clf.predict(to_predict), columns=['Predicted_Winner'])
+	# 	# predicted_df.to_csv('predictions.csv', encoding='utf-8')
+	# 	# print len(stocksDf['Adj. Close'].tail(predict_index))
+	# 	predicted_df = pd.DataFrame()
+	# 	predicted_df['to_predict'] = stocksDf['Adj. Close'].tail(predict_index)
+	# 	predicted_df = predicted_df.reset_index(drop=True)
+	# 	# print stocksDf['Adj. Close'].tail(predict_index)
+	# 	X = preprocessing.scale(X)
+		
+	# 	predict_values = X[len(X)-predict_index:] # future for last set dates
+
+	# 	# print("Loading Classifier...")
+
+	# 	file_name = 'XGClf_%s.pkl' %symbol
+	# 	clf = joblib.load(file_name)
+	# 	# graph prediction and show dates of prediction
+	# 	# print clf.predict(predict_values) # give array of last 10 days to get 1% into each values future
+	# 	# predicted_df['Predicted'] = pd.DataFrame(clf.predict(predict_values))
+	# 	temp_df = pd.DataFrame(clf.predict(predict_values), columns=['Predicted'])
+	# 	# plot(stocksDf['Adj. Close'], "AAPL", "Date", "Prices")
+	# 	frames = [predicted_df, temp_df]
+	# 	result = pd.concat(frames, axis=1)
 
 	# 	# le.classes_ = np.load('Label_Encoder.npy')
 
-	# 	# print result
+	# 	print result
 	# 	cur_path = os.getcwd()
 	# 	file_name = '/data/%s_predicted_classification.csv' %symbol
 	# 	abs_path = cur_path+file_name
@@ -352,16 +348,69 @@ class predictStocks:
 
 		to_predict_df = to_predict_df.append(prediction_df)
 		to_predict_df = to_predict_df.tail(forecast_out)
+		print to_predict_df
 		return np.array(to_predict_df)
-
-		# do * 4 if you want to graph with previous values
-		# to_predict_df = to_predict_df.tail(forecast_out*4)
-
-		# print "merged:"
-		# print to_predict_df
-
-		# to_predict_df.to_csv(file_merged_path, encoding='utf-8')
         
+
+	def stocksNeuralNet(self, stockName, forecast_out):
+		# TODO:only download if new data avaliable-base on date
+		read_df = self.download_data(stockName)
+
+		read_df['Daily Returns'] = self.dailyReturn(read_df['Adj. Close'])
+		read_df['Future'] = read_df['Adj. Close'].shift(-forecast_out)	
+
+		to_predict_df = read_df.copy(deep=True)
+		to_predict_df = to_predict_df.dropna(how='any')
+
+		decisions = []
+		pe_ratio = []
+		for index, row in read_df.iterrows():
+			# floating point comparison careful
+			# if 1 % increase in two weeks, then classify as a buy
+			# another method is to get historical buy-sell ratings
+			if (round(row['Future'],3) > round((1.01*row['Adj. Close']),3)):
+				decisions.append('Buy')
+			elif (round(row['Future'],3) < ((-1.00*row['Adj. Close']),3)):
+				decisions.append('Sell')
+			else:
+				decisions.append('Hold')
+	
+		read_df_binary = read_df.copy(deep=True)
+		read_df_binary['Decision'] = decisions
+
+		clf = self.predictNN(read_df_binary, True, stockName)
+
+		prediction_df = self.nerualNetClassify(to_predict_df, stockName, forecast_out, clf)
+
+		current_date = datetime.date.today()
+		prediction_dates = []
+
+		for i in range(forecast_out):
+			# do not count weekend
+			current_date = current_date + datetime.timedelta(days=1)
+			weekno = current_date.weekday()
+			while weekno>4:
+				current_date = current_date + datetime.timedelta(days=1)
+				weekno = current_date.weekday()
+
+			prediction_dates.append(current_date)
+
+		prediction_df['Date'] = prediction_dates
+
+		prediction_df = prediction_df[['Date','Predicted']]
+		prediction_df = prediction_df.rename(columns = {'Predicted':'Adj. Close'})
+		prediction_df = prediction_df.reset_index()
+		prediction_df = prediction_df.set_index(['Date'])
+		prediction_df = prediction_df[['Adj. Close']]
+
+		# print prediction_df
+
+		to_predict_df = to_predict_df[['Adj. Close']]
+
+		to_predict_df = to_predict_df.append(prediction_df)
+		to_predict_df = to_predict_df.tail(forecast_out)
+		print to_predict_df
+		return np.array(to_predict_df)
 
 		# using yahoo finance api to get current stock price
 	def getCurrentPrice(self, stockName):
@@ -372,55 +421,11 @@ class predictStocks:
 		stock = Share(stockName)
 		return stock.get_dividend_pay_date()
 
-	# def stocksClassify(self, stockName, forecast_out):
-	# 	# check last line of training csv to see if latest data
-	# 	self.download_data(stockName)
-	# 	file_name = 'data/%s_training.csv' %stockName
-	# 	read_df = pd.read_csv(file_name, index_col = "Date")
-
-	# 	# print 'predicting into: ' + str(forecast_out)
-
-	# 	read_df['Daily Returns'] = self.dailyReturn(read_df['Adj. Close'])
-	# 	to_predict_df = read_df.copy(deep=True)
-		
-	# 	read_df['Future'] = read_df['Adj. Close'].shift(-forecast_out)
-
-	# 	read_df = read_df.dropna(how='any')
-
-	# 	decisions = []
-	# 	pe_ratio = []
-	# 	for index, row in read_df.iterrows():
-	# 		# floating point comparison careful
-	# 		# if 1 % increase in two weeks, then classify as a buy
-	# 		# another method is to get historical buy-sell ratings
-	# 		if (round(row['Future'],3) > round((1.01*row['Adj. Close']),3)):
-	# 			decisions.append('Buy')
-	# 		elif (round(row['Future'],3) < ((-1.00*row['Adj. Close']),3)):
-	# 			decisions.append('Sell')
-	# 		else:
-	# 			decisions.append('Hold')
-	
-	# 	read_df_binary = read_df.copy(deep=True)
-	# 	read_df_binary['Decision'] = decisions
-	# 	# print read_df_binary['Decision'].value_counts()
-
-	# 	read_df_binary = read_df_binary.drop(['Future'], axis=1)
-	# 	self.predictML(read_df_binary, False, stockName)
-
-	# 	# print read_df_binary
-
-	# 	cur_path = os.getcwd()
-	# 	file_paths = []
-	# 	file_training = 'data/%s_training.csv' %stockName
-	# 	abs_path_training = cur_path+'/'+file_training
-	# 	file_paths.append(self.binaryClassifySaved(to_predict_df, symbol, forecast_out))
-	# 	file_paths.append(abs_path_training)
-	# 	return file_paths
-
 if __name__ == "__main__":
 	predict = predictStocks()
 	symbol = 'GOOGL'
-	print predict.stocksRegression(symbol, 14)
+	# print predict.stocksRegression(symbol, 14)
 	# print predict.stocksClassify(symbol, 14)
-	print predict.getCurrentPrice(symbol)
+	# print predict.getCurrentPrice(symbol)
+	print predict.stocksNeuralNet(symbol, 14)
 
