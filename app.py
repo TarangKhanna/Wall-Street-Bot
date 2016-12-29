@@ -102,7 +102,7 @@ def getStockPrediction(req):
         return None
 
     num_of_days = 3
-    if not time and time is not None:
+    if time != '' and time is not None:
         num_of_days = extract_days(time)
 
     prediction = predictStocks()
