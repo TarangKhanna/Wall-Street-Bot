@@ -119,8 +119,8 @@ def extract_days(time):
 
     dates = time.split('/')
 
-    first = datetime.datetime.strptime(dates[0], "%Y-%m-%d").date()
-    second = datetime.datetime.strptime(dates[1], "%Y-%m-%d").date()
+    first = datetime.strptime(dates[0], "%Y-%m-%d").date()
+    second = datetime.strptime(dates[1], "%Y-%m-%d").date()
 
     num_days = (second - first).days+1
 
