@@ -52,9 +52,16 @@ def processRequest(req):
         return res
     elif req.get("result").get("action") == "Decision.Classification":
         res = makeWebhookResult(getStockClassification(req), req, stock_symbol)
+        return res 
+    elif req.get("result").get("action") == "input.welcome":
+        res = makeWebhookResult(getWelcome(req), req, stock_symbol)
         return res
     else:
         return {}
+
+def getWelcome(req):
+    response = 'Hi! I am here to help predict financial markets. My predictions are not 100% accurate!'
+    return response
 
 # analyze feelings intent
 def getTwitterFeelings(req):
@@ -255,6 +262,8 @@ def makeWebhookResult(data, req, stock_symbol):
         speech = "Feelings for " + stock_symbol + ": " + str(data)
     elif action == "Decision.Classification":
         speech = "I think we should " + str(data) + " " + stock_symbol 
+    elif action == "input.welcome":
+        speech = str(data)
     else:
         speech = str(data)
 
@@ -280,6 +289,23 @@ def makeWebhookResult(data, req, stock_symbol):
     #         }
     #       }
     #     }
+
+    # quick reply template
+  #   "message":{
+  #   "text":"Pick a color:",
+  #   "quick_replies":[
+  #     {
+  #       "content_type":"text",
+  #       "title":"Red",
+  #       "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
+  #     },
+  #     {
+  #       "content_type":"text",
+  #       "title":"Green",
+  #       "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+  #     }
+  #   ]
+  # }
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
