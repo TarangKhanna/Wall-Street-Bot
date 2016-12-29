@@ -1,17 +1,13 @@
-# wallstreetbot
+# wallstreetbot : Chatbot for stock predictions 
 
-Statsrt talking to the bot on messenger:
+Chat with the bot on messenger:
 http://m.me/stockpredictions
 
-Chatbot for stock predictions 
+Technologies: 
 
-NLP: API.AI
-
-Backend: 
 Flask 
 Python
-Custom machine learning classifiers for predicting stocks.
+Custom machine learning classifiers for predicting stocks
+NLP: API.AI
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
-Scipy and chatbot on Heroku.
