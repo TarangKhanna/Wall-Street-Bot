@@ -120,7 +120,7 @@ def getStockClassification(req):
     if stock_symbol is None:
         return None
 
-    num_of_days = 3
+    num_of_days = 14
     if time != '' and time is not None:
         num_of_days = extract_days(time)
 
@@ -128,7 +128,7 @@ def getStockClassification(req):
     
     predicted_values = prediction.stocksNeuralNet(stock_symbol, int(num_of_days))
     predicted_decision = predicted_values.tolist()[-1][0]
-    return predicted_decision.lower()
+    return predicted_decision.lower() + ' (for two weeks)'
 
 def extract_days(time):
     num_days = 3
