@@ -127,8 +127,8 @@ def getStockClassification(req):
     prediction = predictStocks()
     
     predicted_values = prediction.stocksNeuralNet(stock_symbol, int(num_of_days))
-    predicted_list = predicted_values.tolist()[-1][0]
-    return predicted_list
+    predicted_decision = predicted_values.tolist()[-1][0]
+    return predicted_decision.lower()
 
 def extract_days(time):
     num_days = 3
