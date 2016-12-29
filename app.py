@@ -110,6 +110,10 @@ def getStockPrediction(req):
     predicted_list = predicted_values.tolist()
     return ''.join(str(v) for v in predicted_list)
 
+# invest or not
+def getStockClassification(req):
+    pass
+
 def extract_days(time):
     num_days = 3
 
@@ -121,7 +125,7 @@ def extract_days(time):
     num_days = (second - first).days+1
 
     return num_days
-    
+
 # intent current price
 def getStockCurrentPrice(req):
     result = req.get("result")
