@@ -151,10 +151,11 @@ class predictStocks:
 		# clf = MLPClassifier(solver='lbfgs', alpha=1e-5,
 		#                     hidden_layer_sizes=(5, 2), random_state=1)
 
+		# tune, train and store on S3
 		mlp = MLPClassifier(activation='relu', alpha=1e-05, batch_size='auto',
 		       beta_1=0.9, beta_2=0.999, early_stopping=False,
 		       epsilon=1e-08, hidden_layer_sizes=(5, 2), learning_rate='constant',
-		       learning_rate_init=0.001, max_iter=200, momentum=0.9,
+		       learning_rate_init=0.001, max_iter=150, momentum=0.9,
 		       nesterovs_momentum=True, power_t=0.5, random_state=1, shuffle=True,
 		       solver='lbfgs', tol=0.0001, validation_fraction=0.1, verbose=False,
 		       warm_start=False)
@@ -298,7 +299,6 @@ class predictStocks:
 		# df.to_csv(file_name, encoding='utf-8')
 		return df
 
-
 	def stocksRegression(self, stockName, forecast_out):
 		# only download if new data avaliable
 		read_df = self.download_data(stockName)
@@ -313,14 +313,9 @@ class predictStocks:
 		read_df = read_df.dropna(how='any')
 
 		clf = self.predictML(read_df, True, stockName)
-		# cur_path = os.getcwd()
-		# abs_path_training = cur_path+'/'+file_name_training
 
 		prediction_df = self.regressionSaved(to_predict_df, stockName, forecast_out, clf)
         
-		# prediction_df = pd.read_csv(file_prediction, index_col=False)
-
-
 		current_date = datetime.date.today()
 		prediction_dates = []
 
