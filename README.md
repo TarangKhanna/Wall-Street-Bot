@@ -1,7 +1,7 @@
 # wallstreetbot
 
-Start talking to the bot:
-https://www.facebook.com/stockpredictions/?fref=ts
+Statsrt talking to the bot on messenger:
+http://m.me/stockpredictions
 
 Chatbot for stock predictions 
 
