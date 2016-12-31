@@ -239,7 +239,8 @@ def makeWebhookResult(data, req, stock_symbol):
                                   {
                                     "type":"web_url",
                                     "url":chart_url,
-                                    "title":chart_speech
+                                    "title":chart_speech,
+                                    "webview_height_ratio": "compact"
                                   },
                                   {
                                     "type":"postback",
