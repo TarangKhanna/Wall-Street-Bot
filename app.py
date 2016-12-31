@@ -218,8 +218,10 @@ def makeWebhookResult(data, req, stock_symbol):
     if action == "CurrentPrice.price":
         speech = "Current Price for the stock is $" + str(data)
         next_speech = "Predict " + stock_symbol
-        news_speech = "News for " + stock_symbol
-        news_url = "http://finance.yahoo.com/quote/" + stock_symbol
+        # news_speech = "News for " + stock_symbol
+        # news_url = "http://finance.yahoo.com/quote/" + stock_symbol
+        chart_speech = "Chart for " + stock_symbol
+        chart_url = "https://www.etoro.com/markets/" + stock_symbol + "/chart"
         feelings_speech = 'Feelings ' + stock_symbol
         if source == 'facebook':
             return {
@@ -236,8 +238,8 @@ def makeWebhookResult(data, req, stock_symbol):
                                 "buttons":[
                                   {
                                     "type":"web_url",
-                                    "url":news_url,
-                                    "title":news_speech
+                                    "url":chart_url,
+                                    "title":chart_speech
                                   },
                                   {
                                     "type":"postback",
