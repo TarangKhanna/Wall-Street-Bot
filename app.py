@@ -142,15 +142,20 @@ def getStockClassification(req):
 
 def extract_days(time):
     num_days = 3
-
     dates = time.split('/')
 
-    first = datetime.strptime(dates[0], "%Y-%m-%d").date()
-    second = datetime.strptime(dates[1], "%Y-%m-%d").date()
+    if dates is not None:
+        first = datetime.strptime(dates[0], "%Y-%m-%d").date()
+        second = datetime.strptime(dates[1], "%Y-%m-%d").date()
+        num_days = (second - first).days+1
+    else:
+        dates = time.split(' ')
+        if dates is not None:
+            if dates[0].isdigit():
+                num_of_days = int(dates[0])
 
-    num_days = (second - first).days+1
-
-    return num_days
+    return num_of_days
+    
 
 # intent current price
 def getStockCurrentPrice(req):
@@ -260,7 +265,7 @@ def makeWebhookResult(data, req, stock_symbol):
             }
 
     elif action == "Prediction.stockForecast":
-        speech = "Predicted price for next few days: " + str(data)
+        speech = "Predicted price for coming days: " + str(data)
     elif action == "Feelings.analyze":
         speech = "Feelings for " + stock_symbol + ": " + str(data)
     elif action == "Decision.Classification":
