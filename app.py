@@ -163,9 +163,9 @@ def extract_days(time):
         dates = time.split(' ')
         if dates is not None:
             if dates[0].isdigit():
-                num_of_days = int(dates[0])
+                num_days = int(dates[0])
 
-    return num_of_days
+    return num_days
     
 
 # intent current price
