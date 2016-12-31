@@ -111,10 +111,21 @@ def getStockPrediction(req):
         num_of_days = extract_days(time)
 
     prediction = predictStocks()
-    
     predicted_values = prediction.stocksRegression(stock_symbol, int(num_of_days))
     predicted_list = predicted_values.tolist()
-    return ''.join(str(v) for v in predicted_list)
+    clean_list = cleanPrediction(predicted_list)
+
+    return '\n'.join(str(v) for v in clean_list)
+
+def cleanPrediction(list_prices):
+    clean_list = []
+
+    for price in list_prices:
+        price_float = float(price[0])
+        str_price =  '%.2f' % price_float
+        clean_list.append(str_price)
+
+    return clean_list
 
 # invest or not
 def getStockClassification(req):
@@ -167,7 +178,10 @@ def getStockCurrentPrice(req):
 
     prediction = predictStocks()
     current_price = prediction.getCurrentPrice(stock_symbol)
+
+
     return str(current_price)
+
 
 # intent dividend date
 def getStockDividendPayDate(req):
