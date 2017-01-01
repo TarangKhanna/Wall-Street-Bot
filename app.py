@@ -64,6 +64,7 @@ def processRequest(req):
         return {}
 
 def logMessage(req):
+    print "LOGGING!"
     originalRequest = req.get("originalRequest")
     source = ''
     if originalRequest != None:
