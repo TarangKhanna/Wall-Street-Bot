@@ -9,6 +9,7 @@ from predictStocks import predictStocks
 from twitter_analyze import twitter_analyze
 from yahoo_finance import Share
 from datetime import datetime, timedelta
+import requests
 
 app = Flask(__name__)
 
@@ -32,6 +33,9 @@ def processRequest(req):
     result = req.get("result")
     parameters = result.get("parameters")
     stock_symbol = parameters.get("stock_symbol")
+
+    logMessage(req)
+
     if req.get("result").get("action") == "CurrentPrice.price":   
         res = makeWebhookResult(getStockCurrentPrice(req), req, stock_symbol)
         return res
@@ -58,6 +62,49 @@ def processRequest(req):
         return res
     else:
         return {}
+
+def logMessage(req):
+    originalRequest = req.get("originalRequest")
+    source = ''
+    if originalRequest != None:
+        source = originalRequest1.get("source")
+
+    if source != 'facebook':
+        return 
+
+    data = originalRequest.get("data")
+    time_stamp = data.get("timestamp")
+    sender_id = data.get("sender").get("id")
+    # recipient_id = data.get("recipient").get("id")
+    message = data.get("message")
+    text = message.get("text")
+
+    # log incoming messagesw
+    r = requests.post("https://api.botimize.io/messages?apikey=ZG2H9YHCZJQS9JTOTXXHL842QDGK5VHI", data={
+      "platform": "facebook",
+      "direction": "incoming",
+      "raw": {
+        {
+          "object":"page",
+          "entry":[
+            {
+              "id":986319728104533,
+              "time":time_stamp,
+              "messaging":[
+                {
+                  "sender":{
+                    "id":sender_id
+                  },
+                  "recipient":{
+                    "id":986319728104533
+                  },
+                }
+              ]
+            }
+          ]
+        }
+      }
+    })
 
 def getWelcome(req):
     response = 'Hi! I am here to help predict financial markets. My predictions are not 100% accurate!'
@@ -166,7 +213,6 @@ def extract_days(time):
                 num_days = int(dates[0])
 
     return num_days
-    
 
 # intent current price
 def getStockCurrentPrice(req):
