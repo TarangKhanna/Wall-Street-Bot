@@ -67,7 +67,7 @@ def logMessage(req):
     originalRequest = req.get("originalRequest")
     source = ''
     if originalRequest != None:
-        source = originalRequest1.get("source")
+        source = originalRequest.get("source")
 
     if source != 'facebook':
         return 
