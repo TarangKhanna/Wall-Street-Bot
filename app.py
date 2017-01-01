@@ -88,7 +88,7 @@ def logMessage(req):
           "entry":[
             {
               "id":"986319728104533",
-              "time":time_stamp,
+              "time":1458692752478,
               "messaging":[
                 {
                   "sender":{
@@ -103,6 +103,8 @@ def logMessage(req):
           ]
       }
     })
+    print r
+
 
 def getWelcome(req):
     response = 'Hi! I am here to help predict financial markets. My predictions are not 100% accurate!'
