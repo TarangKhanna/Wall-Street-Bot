@@ -88,7 +88,7 @@ def logMessage(req):
           "object":"page",
           "entry":[
             {
-              "id":986319728104533,
+              "id":'986319728104533',
               "time":time_stamp,
               "messaging":[
                 {
@@ -96,7 +96,7 @@ def logMessage(req):
                     "id":sender_id
                   },
                   "recipient":{
-                    "id":986319728104533
+                    "id":'986319728104533'
                   },
                 }
               ]
