@@ -34,7 +34,7 @@ def processRequest(req):
     parameters = result.get("parameters")
     stock_symbol = parameters.get("stock_symbol")
 
-    # logMessage(req)
+    logMessage(req)
 
     if req.get("result").get("action") == "CurrentPrice.price":   
         res = makeWebhookResult(getStockCurrentPrice(req), req, stock_symbol)
@@ -67,10 +67,12 @@ def logMessage(req):
     print "LOGGING!"
     originalRequest = req.get("originalRequest")
     source = ''
+
     if originalRequest != None:
         source = originalRequest.get("source")
 
     if source != 'facebook':
+        print "not from facebook"
         return 
 
     data = originalRequest.get("data")
@@ -105,6 +107,7 @@ def logMessage(req):
       }
     })
     print r
+    print "Success"
 
 
 def getWelcome(req):
