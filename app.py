@@ -60,8 +60,18 @@ def processRequest(req):
     elif req.get("result").get("action") == "input.welcome":
         res = makeWebhookResult(getWelcome(req), req, stock_symbol)
         return res
+    elif req.get("result").get("action") == "Visualize.chart":
+        res = makeWebhookResult(getChartURL(req), req, stock_symbol)
+        return res
     else:
         return {}
+
+def getChartURL(req):
+    result = req.get("result")
+    parameters = result.get("parameters")
+    stock_symbol = parameters.get("stock_symbol")
+    chart_url = "https://www.etoro.com/markets/" + stock_symbol + "/chart"
+    return chart_url
 
 def logMessage(req):
     print "LOGGING!"
@@ -337,6 +347,37 @@ def makeWebhookResult(data, req, stock_symbol):
         speech = "I think we should " + str(data) + " " + stock_symbol 
     elif action == "input.welcome":
         speech = str(data)
+    elif action == "Visualize.chart":
+        speech = 'Here is your chart:'
+        chart_url = str(data)
+        chart_speech = "Chart for " + stock_symbol
+
+        if source == 'facebook':
+            return {
+                "speech": speech,
+                "displayText": speech,
+                "source": "apiai-wallstreetbot-webhook", 
+                "data": {
+                    "facebook": {
+                      "attachment": {
+                        "type": "template",
+                        "payload": {
+                                "template_type":"button",
+                                "text":speech,
+                                "buttons":[
+                                  {
+                                    "type":"web_url",
+                                    "url":chart_url,
+                                    "title":chart_speech,
+                                    "webview_height_ratio": "compact"
+                                  },
+                                ]
+                            }
+                         }
+                    }
+                }
+            }
+
     else:
         speech = str(data)
 
