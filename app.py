@@ -83,7 +83,7 @@ def logMessage(req):
     text = message.get("text")
 
     # log incoming messagesw
-    r = requests.post("https://api.botimize.io/messages?apikey=ZG2H9YHCZJQS9JTOTXXHL842QDGK5VHI", data={
+    response = requests.post("https://api.botimize.io/messages?apikey=ZG2H9YHCZJQS9JTOTXXHL842QDGK5VHI", data={
       "platform": "facebook",
       "direction": "incoming",
       "raw": {
@@ -106,7 +106,8 @@ def logMessage(req):
           ]
       }
     })
-    print r
+    print response
+    print response.content 
     print "Success"
 
 
