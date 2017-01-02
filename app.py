@@ -34,7 +34,7 @@ def processRequest(req):
     parameters = result.get("parameters")
     stock_symbol = parameters.get("stock_symbol")
 
-    logMessage(req)
+    # logMessage(req)
 
     if req.get("result").get("action") == "CurrentPrice.price":   
         res = makeWebhookResult(getStockCurrentPrice(req), req, stock_symbol)
