@@ -279,7 +279,7 @@ class predictStocks:
 		# print 'Till Date:'
 		# print till_date
 
-		to_download = 'YAHOO/%s' %symbol
+		to_download = 'WIKI/%s' %symbol
 		df = quandl.get(to_download, authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date=till_date)
 
 		sp500_df_all = quandl.get("YAHOO/INDEX_GSPC", authtoken="zzYfW2Zd_3J3Gt2o3Nz6", start_date="2010-12-12", end_date=till_date)
