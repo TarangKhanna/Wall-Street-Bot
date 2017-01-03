@@ -345,6 +345,25 @@ def makeWebhookResult(data, req, stock_symbol):
         speech = "Feelings for " + stock_symbol + ": " + str(data)
     elif action == "Decision.Classification":
         speech = "I think we should " + str(data) + " " + stock_symbol 
+        if source == 'facebook':
+            return {
+                "speech": speech,
+                "displayText": speech,
+                "source": "apiai-wallstreetbot-webhook", 
+                "data": {
+                    "facebook": {
+                      "text":"Type or help:",
+                        "quick_replies":[
+                          {
+                            "content_type":"text",
+                            "title":"Help",
+                            "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
+                          }
+                        ]
+                    }
+                }
+            }
+
     elif action == "input.welcome":
         speech = str(data)
     elif action == "Visualize.chart":
