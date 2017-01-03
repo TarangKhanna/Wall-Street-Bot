@@ -352,7 +352,7 @@ def makeWebhookResult(data, req, stock_symbol):
                 "source": "apiai-wallstreetbot-webhook", 
                 "data": {
                     "facebook": {
-                      "text":"Type or help:",
+                      "text":speech + '. Need more?',
                         "quick_replies":[
                           {
                             "content_type":"text",
