@@ -356,8 +356,8 @@ def makeWebhookResult(data, req, stock_symbol):
                         "quick_replies":[
                           {
                             "content_type":"text",
-                            "title":"Help",
-                            "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
+                            "title":"More Commands",
+                            "payload":"More Commands"
                           }
                         ]
                     }
