@@ -75,6 +75,7 @@ class predictStocks:
 
 				# clf = joblib.load('LinearRegressionClf.pkl')
 				# print clf
+				# do cross fold validation
 				accuracy = clf.score(X_test,y_test) # test on data not used for training, is around 95%
 				# print(accuracy)
 				# print clf.predict(predict_value) # give array of last 10 days to get 1% into each values future
