@@ -138,6 +138,9 @@ class predictStocks:
 		# print best_accuracy
 
 	# predict using neural network
+	# need to retrain till we get a higher accuracy
+	# I will store best Neural Net to disk when I get
+	# access to Amazon S3
 	def predictNN(self,stocksDf, useRegression, symbol):
 		stocksDf = stocksDf.dropna(how='any')
 
