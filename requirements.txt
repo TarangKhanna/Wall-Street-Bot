@@ -19,3 +19,4 @@ textblob==0.11.1
 tweepy==3.5.0
 unicodecsv==0.14.1
 yahoo-finance==1.4.0
+https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.1.14.tar.gz
