@@ -1,6 +1,7 @@
+nomkl==1.0
 anaconda-clean==1.0
 conda==4.2.12
-numpy==1.11.2
+numpy==1.11.3
 scikit-learn==0.18.1
 scipy==0.18.1
 pandas==0.19.1
