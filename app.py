@@ -14,7 +14,7 @@ import mysql.connector
 
 app = Flask(__name__)
 
-cnx = mysql.connector.connect(user=os.environ['JW_USERNAME'], password=os.environ['JW_KEY'], host=os.environ['JW_HOST'], database='stocks')
+cnx = mysql.connector.connect(user=os.environ['JW_USERNAME'], password=os.environ['JW_KEY'], host=os.environ['JW_HOST'], database='xcqk05aruwtw0kew')
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
