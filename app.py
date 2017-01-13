@@ -10,11 +10,11 @@ from twitter_analyze import twitter_analyze
 from yahoo_finance import Share
 from datetime import datetime, timedelta
 import requests
-import mysql.connector
+# import mysql.connector
 
 app = Flask(__name__)
 
-cnx = mysql.connector.connect(user=os.environ['JW_USERNAME'], password=os.environ['JW_KEY'], host=os.environ['JW_HOST'], database='xcqk05aruwtw0kew')
+# cnx = mysql.connector.connect(user=os.environ['JW_USERNAME'], password=os.environ['JW_KEY'], host=os.environ['JW_HOST'], database='xcqk05aruwtw0kew')
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -236,15 +236,15 @@ def extract_days(time):
 def getStockCurrentPrice(req):
     # db test
     print 'Accessing database'
-    cursor = cnx.cursor(buffered = True)
-    str_call = 'SELECT * FROM USER_BASIC_INFO'
-    cursor.execute(str_call);
+    # cursor = cnx.cursor(buffered = True)
+    # str_call = 'SELECT * FROM USER_BASIC_INFO'
+    # cursor.execute(str_call);
 
-    data = cursor.fetchone()
-    cnx.commit()
-    cursor.close()
+    # data = cursor.fetchone()
+    # cnx.commit()
+    # cursor.close()
 
-    print data[0]
+    # print data[0]
     # db test
 
     result = req.get("result")
