@@ -13,7 +13,7 @@ Technologies Used:
 
 Flask<br />
 Python<br />
-NLP: API.AI<br />
+Natural Language Processing: API.AI<br />
 
 
 You can deploy the backend easily from here: 
