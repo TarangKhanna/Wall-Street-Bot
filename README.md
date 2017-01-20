@@ -11,10 +11,10 @@ Qualitative information from twitter sentiment analysis on recent tweets about t
 
 Technologies Used: 
 
-Flask.     
-Python. 
-Custom machine learning classifiers for predicting stocks. 
-NLP: API.AI. 
+Flask<br />
+Python<br />
+Custom machine learning classifiers for predicting stocks<br />
+NLP: API.AI<br />
 
 
 You can deploy the backend easily from here: 
