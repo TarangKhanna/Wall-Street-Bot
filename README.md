@@ -2,7 +2,7 @@
 
 Chat with the bot on messenger:    
 http://m.me/stockpredictions  
-Features:<br />     
+Features:<br /> 
 Basic stock information such as current price, dividend date, chart    
 Predictions about stocks based on custom machine learning algorithm  
 Qualitative information from twitter sentiment analysis on recent tweets about the stock. 
