@@ -13,7 +13,6 @@ Technologies Used:
 
 Flask<br />
 Python<br />
-Custom machine learning classifiers for predicting stocks<br />
 NLP: API.AI<br />
 
 
