@@ -19,3 +19,5 @@ Natural Language Processing: API.AI<br />
 You can deploy the backend easily from here: 
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+After you deploy, you need to create an agent in API AI. The webhook for API AI is called app.py in this repo.
