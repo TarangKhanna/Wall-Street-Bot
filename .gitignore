@@ -1,0 +1,4 @@
+
+heroku config:set AWS_ACCESS_KEY_ID=AKIAJVD6BGCMAH
+
+heroku config:set DATABASE_URL='mysql:::vc28mb9jcy
